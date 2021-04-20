@@ -34,22 +34,22 @@ int Simulator::getTotalFrames()
 void Simulator::drawAxes()
 {
     glPushAttrib(GL_LIGHTING_BIT | GL_LINE_BIT);
-        glDisable(GL_LIGHTING);
+		glDisable(GL_LIGHTING);
 
-        glLineWidth(2.0); 
-        glBegin(GL_LINES);
-            glColor3f(1.0, 0.0, 0.0);
-            glVertex3f(0.0, 0.0, 0.0);
-            glVertex3f(1.0, 0.0, 0.0);
+		glLineWidth(2.0);
+		glBegin(GL_LINES);
+    glColor3f(1.0, 0.0, 0.0);
+    glVertex3f(0.0, 0.0, 0.0);
+    glVertex3f(1.0, 0.0, 0.0);
 
-            glColor3f(0.0, 1.0, 0.0);
-            glVertex3f(0.0, 0.0, 0.0);
-            glVertex3f(0.0, 1.0, 0.0);
+    glColor3f(0.0, 1.0, 0.0);
+		glVertex3f(0.0, 0.0, 0.0);
+    glVertex3f(0.0, 1.0, 0.0);
 
-            glColor3f(0.0, 0.0, 1.0);
-            glVertex3f(0.0, 0.0, 0.0);
-            glVertex3f(0.0, 0.0, 1.0);
-        glEnd();
+    glColor3f(0.0, 0.0, 1.0);
+    glVertex3f(0.0, 0.0, 0.0);
+    glVertex3f(0.0, 0.0, 1.0);
+    glEnd();
     glPopAttrib();
 }
 

@@ -2,7 +2,7 @@
 
 #undef max
 #undef min 
-#define  enableSphere false
+#define enableSphere true
 #define theRenderMode CUBES
 
 bool MACGrid::theDisplayVel = false;//true
@@ -80,7 +80,6 @@ vec3 MACGrid::getVelocity(const vec3& pt)
             vel[2] = getVelocityZ(pt);
             return vel;
         } else if (radius == 10 * theCellSize) {
-            cout<<"reach2";
             vec3 curvel(mU.interpolate(pt), mV.interpolate(pt), mW.interpolate(pt));
             vec3 pro = Dot(curvel, (pt - centr)) * (pt - centr).Normalize();
             return (curvel - pro);
@@ -374,21 +373,8 @@ void MACGrid::saveDensity(std::string filename){
 
 void MACGrid::draw(const Camera& c)
 {   
-    drawWireGrid();
-    switch(theRenderMode) 
-    {
-        case CUBES:
-            drawSmokeCubes(c);
-            break;
-        case SHEETS:
-            drawSmoke(c);
-            break;
-        case PARTICLES:
-            drawParticles(c);
-            break;
-        default:
-            break;
-    }
+	drawWireGrid();
+	drawSmokeCubes(c);
 }
 
 void MACGrid::drawVelocities()
@@ -610,15 +596,14 @@ void MACGrid::drawSmokeCubes(const Camera& c)
 }
 void MACGrid::drawParticles(const Camera& c) 
 {
-    glEnable(GL_POINT_SMOOTH);
+	glEnable(GL_POINT_SMOOTH);
 	glColor3f(0.0f, 0.0f, 1.0f);
 	glPointSize(3.f);
 	glBegin(GL_POINTS); 
-        FOR_EACH_PARTICLE 
-        {
-            Particle p = particles.at(i);
-            glVertex3d(p.position[0], p.position[1], p.position[2]);            
-        }
+	FOR_EACH_PARTICLE{
+			Particle p = particles.at(i);
+			glVertex3d(p.position[0], p.position[1], p.position[2]);
+	}
 	glEnd();
 }
 
@@ -741,7 +726,6 @@ void MACGrid::drawCube(const MACGrid::Cube& cube)
 
 void MACGrid::drawSphere()
 {
-   cout<<"reachsphere"<<endl;
    glColor4f(0.0, 1.0, 0.0, 1.0);
    glPushMatrix();
       //glTranslated(sphereC[0], sphereC[1], sphereC[2]);      

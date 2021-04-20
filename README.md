@@ -9,7 +9,7 @@ make
 // Run program
 cd ..
 cd src
-.SIM fluid or ./SIM smoke <scene 0 or 1>
+./SIM <scene 0 or 1>
 ```
 
 ## References

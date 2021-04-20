@@ -83,14 +83,16 @@ void onMouseCb(int button, int state, int x, int y)
    theModifierState = glutGetModifiers();
    lastX = x;
    lastY = y;
-
+	
    glutSetMenu(theMenu);
    if (theModifierState & GLUT_ACTIVE_ALT)
    {
+		 std::cout << "1" << endl;
       glutDetachMenu(GLUT_RIGHT_BUTTON);
    }
    else
    {
+		 std::cout << "2" << endl;
       glutAttachMenu(GLUT_RIGHT_BUTTON);
    }
 
@@ -101,8 +103,6 @@ void onMouseCb(int button, int state, int x, int y)
 void onKeyboardCb(unsigned char key, int x, int y)
 {
    if (key == ' ') theCamera.reset();
-//    else if (key == '0') MACGrid::theRenderMode = MACGrid::CUBES;
-//    else if (key == '1') MACGrid::theRenderMode = MACGrid::SHEETS;
    else if (key == 'v') MACGrid::theDisplayVel = !MACGrid::theDisplayVel;
    else if (key == 'r') {
 		 theSmokeSim.setRecording(!theSmokeSim.isRecording(), savedWidth, savedHeight);
@@ -126,10 +126,6 @@ void onMenuCb(int value)
         break;
     default: onKeyboardCb(value, 0, 0); break;
     }
-}
-
-void onKeyboardSpecialCb(int key, int x, int y)
-{
 }
 
 void onTimerCb(int value)
@@ -231,7 +227,6 @@ int main(int argc, char **argv)
 
     glutDisplayFunc(onDrawCb);
     glutKeyboardFunc(onKeyboardCb);
-    glutSpecialFunc(onKeyboardSpecialCb);
     glutMouseFunc(onMouseCb);
     glutMotionFunc(onMouseMotionCb); 
     glutTimerFunc(theMillisecondsPerFrame, onTimerCb, 0); 

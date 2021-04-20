@@ -78,11 +78,6 @@ public:
 	// Setup
 	void initialize();
 
-	// Simulation
-	void computeGravity(double dt);
-	void computeBouyancy(double dt);
-	void computeVorticityConfinement(double dt);
-	void applyVorticityConfinement(vec3 &fConf, int &i, int &j, int &k);
 
 	// Rendering
 	struct Cube { vec3 pos; vec4 color; double dist; };
