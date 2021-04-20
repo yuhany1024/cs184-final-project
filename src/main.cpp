@@ -19,7 +19,6 @@ mmc::FpsTracker theFpsTracker;
 
 
 // UI Helpers
-int lastX = 0, lastY = 0;
 int theMenu = 0;
 int theButtonState = 0;
 int theModifierState = 0;
@@ -43,52 +42,20 @@ void initCamera(){
 
 void onMouseMotionCb(int x, int y)
 {
-   int deltaX = lastX - x;
-   int deltaY = lastY - y;
-   bool moveLeftRight = abs(deltaX) > abs(deltaY);
-   bool moveUpDown = !moveLeftRight;
-
-   if (theButtonState == GLUT_LEFT_BUTTON)  // Rotate
-   {
-      if (moveLeftRight && deltaX > 0) theCamera.orbitLeft(deltaX);
-      else if (moveLeftRight && deltaX < 0) theCamera.orbitRight(-deltaX);
-      else if (moveUpDown && deltaY > 0) theCamera.orbitUp(deltaY);
-      else if (moveUpDown && deltaY < 0) theCamera.orbitDown(-deltaY);
-   }
-   else if (theButtonState == GLUT_MIDDLE_BUTTON) // Zoom
-   {
-      if (moveUpDown && deltaY > 0) theCamera.moveForward(deltaY);
-      else if (moveUpDown && deltaY < 0) theCamera.moveBack(-deltaY);
-   }    
-
-   if (theModifierState & GLUT_ACTIVE_ALT) // camera move
-   {
-      if (theButtonState == GLUT_RIGHT_BUTTON) // Pan
-      {
-         if (moveLeftRight && deltaX > 0) theCamera.moveLeft(deltaX);
-         else if (moveLeftRight && deltaX < 0) theCamera.moveRight(-deltaX);
-         else if (moveUpDown && deltaY > 0) theCamera.moveUp(deltaY);
-         else if (moveUpDown && deltaY < 0) theCamera.moveDown(-deltaY);
-      }   
-   }
- 
-   lastX = x;
-   lastY = y;
-   glutPostRedisplay();
+	theSmokeSim.sourcePosX = int(-theDim[0]/480.*x+theDim[0]);
+	theSmokeSim.sourcePosY = int(-theDim[1]/480.*y+theDim[1]);
+	glutPostRedisplay();
 }
 
 void onMouseCb(int button, int state, int x, int y){
 	theButtonState = button;
 	theModifierState = glutGetModifiers();
-	lastX = x;
-	lastY = y;
-	
-	theSmokeSim.sourcePosX = int(-32./480*x+32);
-	theSmokeSim.sourcePosY = int(-32./480*y+32);
+
+	theSmokeSim.sourcePosX = int(-theDim[0]/480.*x+theDim[0]);
+	theSmokeSim.sourcePosY = int(-theDim[1]/480.*y+theDim[1]);
 	
 	glutSetMenu(theMenu);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
-	onMouseMotionCb(x, y);
 }
 
 

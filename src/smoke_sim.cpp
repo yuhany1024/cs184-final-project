@@ -37,13 +37,10 @@ void SmokeSim::updateSources(MACGrid &mGrid)
 	for(auto & pos : mysource){
 		int i = pos[0];
 		int j = pos[1];
-		mGrid.mV(i,j+1,0) = 2.0;
+		mGrid.mV(i,j+1,0) = 1.0;
 		mGrid.mD(i,j,0) = 1.0;
 		mGrid.mT(i,j,0) = 1.0;
 
-		mGrid.mV(i,j+2,0) = 2.0;
-		mGrid.mD(i,j,0) = 1.0;
-		mGrid.mT(i,j,0) = 1.0;
 	}
 
 // Refresh particles in source.
