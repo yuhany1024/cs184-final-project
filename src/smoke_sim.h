@@ -9,13 +9,11 @@ class SmokeSim : public Simulator
 public:
     SmokeSim();
     virtual ~SmokeSim() {}
-
-    int scene;
-
+		int sourcePosX = 0; int sourcePosY = 0;
     void reset();
     void step();
 
-    void updateSources(MACGrid &mGrid, int scene);
+    void updateSources(MACGrid &mGrid);
     void advectVelocity(MACGrid &mGrid, double dt);
     // External forces
     void addExternalForces(MACGrid &mGrid, double dt);

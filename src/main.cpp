@@ -17,6 +17,7 @@ SmokeSim theSmokeSim;
 Camera theCamera;
 mmc::FpsTracker theFpsTracker;
 
+
 // UI Helpers
 int lastX = 0, lastY = 0;
 int theMenu = 0;
@@ -27,18 +28,17 @@ bool isRunning = true;
 int savedWidth = 0;
 int savedHeight = 0;
 
-void initCamera()
-{
-   double w = theDim[0]*theCellSize;   
-   double h = theDim[1]*theCellSize;   
-   double d = theDim[2]*theCellSize;   
-   double angle = 0.5*theCamera.dfltVfov*BasicMath::PI/180.0;
-   double dist;
-   if (w > h) dist = w*0.5/std::tan(angle);  // aspect is 1, so i can do this
-   else dist = h*0.5/std::tan(angle);
-   theCamera.dfltEye.set(w*0.5, h*0.5, -(dist+d*0.5));
-   theCamera.dfltLook.set(w*0.5, h*0.5, 0.0);
-   theCamera.reset();
+void initCamera(){
+	double w = theDim[0]*theCellSize;
+	double h = theDim[1]*theCellSize;
+	double d = theDim[2]*theCellSize;
+	double angle = 0.5*theCamera.dfltVfov*BasicMath::PI/180.0;
+	double dist;
+	if (w > h) dist = w*0.5/std::tan(angle);  // aspect is 1, so i can do this
+	else dist = h*0.5/std::tan(angle);
+	theCamera.dfltEye.set(w*0.5, h*0.5, -(dist+d*0.5));
+	theCamera.dfltLook.set(w*0.5, h*0.5, 0.0);
+	theCamera.reset();
 }
 
 void onMouseMotionCb(int x, int y)
@@ -77,26 +77,18 @@ void onMouseMotionCb(int x, int y)
    glutPostRedisplay();
 }
 
-void onMouseCb(int button, int state, int x, int y)
-{
-   theButtonState = button;
-   theModifierState = glutGetModifiers();
-   lastX = x;
-   lastY = y;
+void onMouseCb(int button, int state, int x, int y){
+	theButtonState = button;
+	theModifierState = glutGetModifiers();
+	lastX = x;
+	lastY = y;
 	
-   glutSetMenu(theMenu);
-   if (theModifierState & GLUT_ACTIVE_ALT)
-   {
-		 std::cout << "1" << endl;
-      glutDetachMenu(GLUT_RIGHT_BUTTON);
-   }
-   else
-   {
-		 std::cout << "2" << endl;
-      glutAttachMenu(GLUT_RIGHT_BUTTON);
-   }
-
-   onMouseMotionCb(x, y);
+	theSmokeSim.sourcePosX = int(-32./480*x+32);
+	theSmokeSim.sourcePosY = int(-32./480*y+32);
+	
+	glutSetMenu(theMenu);
+	glutAttachMenu(GLUT_RIGHT_BUTTON);
+	onMouseMotionCb(x, y);
 }
 
 
@@ -216,14 +208,10 @@ int main(int argc, char **argv)
 {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
-    glutInitWindowSize(640, 480);
+    glutInitWindowSize(480, 480);
     glutInitWindowPosition(100, 100);
     
 		glutCreateWindow("Smoke Simulation");
-
-		std::string _scene = argv[1];
-		theSmokeSim.scene = atoi(_scene.c_str());
-
 
     glutDisplayFunc(onDrawCb);
     glutKeyboardFunc(onKeyboardCb);
