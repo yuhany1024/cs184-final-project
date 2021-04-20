@@ -2,14 +2,16 @@
 
 #undef max
 #undef min 
-
-
+#define  enableSphere false
+#define theRenderMode CUBES
 
 bool MACGrid::theDisplayVel = false;//true
 
 MACGrid::MACGrid()
 {
     initialize();
+    cout<<sphereC<<endl;
+    //draw();
 }
 
 MACGrid::MACGrid(const MACGrid& orig)
@@ -59,10 +61,31 @@ void MACGrid::initialize()
 vec3 MACGrid::getVelocity(const vec3& pt)
 {
    vec3 vel;
-   vel[0] = getVelocityX(pt); 
-   vel[1] = getVelocityY(pt); 
-   vel[2] = getVelocityZ(pt); 
-   return vel;
+    int r=3;
+    vec3 centr(sphereC[0]+1.0,sphereC[1],sphereC[2]+1.0);
+    centr*=theCellSize;
+    double radius=Distance(centr,pt);
+    if(!enableSphere)
+    {
+        vel[0] = getVelocityX(pt);
+        vel[1] = getVelocityY(pt);
+        vel[2] = getVelocityZ(pt);
+        return vel;
+    }
+    else
+    {
+        if (radius > 10 * theCellSize) {
+            vel[0] = getVelocityX(pt);
+            vel[1] = getVelocityY(pt);
+            vel[2] = getVelocityZ(pt);
+            return vel;
+        } else if (radius == 10 * theCellSize) {
+            cout<<"reach2";
+            vec3 curvel(mU.interpolate(pt), mV.interpolate(pt), mW.interpolate(pt));
+            vec3 pro = Dot(curvel, (pt - centr)) * (pt - centr).Normalize();
+            return (curvel - pro);
+        }
+    }
 }
 
 double MACGrid::getVelocityX(const vec3& pt)
@@ -583,8 +606,8 @@ void MACGrid::drawSmokeCubes(const Camera& c)
    {
       drawCube(it->second);
    }
-}
 
+}
 void MACGrid::drawParticles(const Camera& c) 
 {
     glEnable(GL_POINT_SMOOTH);
@@ -674,6 +697,55 @@ void MACGrid::drawCube(const MACGrid::Cube& cube)
    glColor4dv(cube.color.n);
    glPushMatrix();
       glTranslated(cube.pos[0], cube.pos[1], cube.pos[2]);      
+      glScaled(theCellSize, theCellSize, theCellSize);
+      glBegin(GL_QUADS);
+         glNormal3d( 0.0, -1.0,  0.0);
+         glVertex3d(-LEN, -LEN, -LEN);
+         glVertex3d(-LEN, -LEN,  LEN);
+         glVertex3d( LEN, -LEN,  LEN);
+         glVertex3d( LEN, -LEN, -LEN);         
+
+         glNormal3d( 0.0,  0.0, -0.0);
+         glVertex3d(-LEN, -LEN, -LEN);
+         glVertex3d(-LEN,  LEN, -LEN);
+         glVertex3d( LEN,  LEN, -LEN);
+         glVertex3d( LEN, -LEN, -LEN);
+
+         glNormal3d(-1.0,  0.0,  0.0);
+         glVertex3d(-LEN, -LEN, -LEN);
+         glVertex3d(-LEN, -LEN,  LEN);
+         glVertex3d(-LEN,  LEN,  LEN);
+         glVertex3d(-LEN,  LEN, -LEN);
+
+         glNormal3d( 0.0, 1.0,  0.0);
+         glVertex3d(-LEN, LEN, -LEN);
+         glVertex3d(-LEN, LEN,  LEN);
+         glVertex3d( LEN, LEN,  LEN);
+         glVertex3d( LEN, LEN, -LEN);
+
+         glNormal3d( 0.0,  0.0, 1.0);
+         glVertex3d(-LEN, -LEN, LEN);
+         glVertex3d(-LEN,  LEN, LEN);
+         glVertex3d( LEN,  LEN, LEN);
+         glVertex3d( LEN, -LEN, LEN);
+
+         glNormal3d(1.0,  0.0,  0.0);
+         glVertex3d(LEN, -LEN, -LEN);
+         glVertex3d(LEN, -LEN,  LEN);
+         glVertex3d(LEN,  LEN,  LEN);
+         glVertex3d(LEN,  LEN, -LEN);
+      glEnd();
+   glPopMatrix();
+}
+
+
+void MACGrid::drawSphere()
+{
+   cout<<"reachsphere"<<endl;
+   glColor4f(0.0, 1.0, 0.0, 1.0);
+   glPushMatrix();
+      //glTranslated(sphereC[0], sphereC[1], sphereC[2]);      
+      glTranslated(1.0, 1.0, 1.0);    
       glScaled(theCellSize, theCellSize, theCellSize);
       glBegin(GL_QUADS);
          glNormal3d( 0.0, -1.0,  0.0);

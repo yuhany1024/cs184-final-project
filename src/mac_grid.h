@@ -90,6 +90,7 @@ public:
 	void drawSmokeCubes(const Camera& c);
 	void drawSmoke(const Camera& c);
 	void drawCube(const MACGrid::Cube& c);
+	void drawSphere();
 	void drawParticles(const Camera &c);
 	void drawFace(const MACGrid::Cube& c);
 	void drawVelocities();
@@ -134,6 +135,7 @@ public:
 	GridData mP;  // Pressure, stored at grid centers, size is dimX*dimY*dimZ
 	GridData mD;  // Density, stored at grid centers, size is dimX*dimY*dimZ
 	GridData mT;  // Temperature, stored at grid centers, size is dimX*dimY*dimZ
+	vec3 sphereC=vec3(35,35,0);
 
 	// FLIP - Save a copy of the velocities for FLIP solve
 	GridDataX mUcopy; 

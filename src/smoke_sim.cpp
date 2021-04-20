@@ -1,5 +1,5 @@
 #include "smoke_sim.h"
-
+#define  enableSphere false
 // MACGrid target;
 MACGrid target;
 
@@ -28,7 +28,7 @@ void SmokeSim::updateSources(MACGrid &mGrid, int scene)
     switch(scene)
     {
         case 0:
-            for(int i=6; i<12;i++){
+            for(int i=0; i<12;i++){
                 for(int j=0; j<5; j++){
                     mGrid.mV(i,j+1,0) = 2.0;
                     mGrid.mD(i,j,0) = 1.0;
@@ -41,7 +41,7 @@ void SmokeSim::updateSources(MACGrid &mGrid, int scene)
             }
 
             // Refresh particles in source.
-            for(int i=6; i<12; i++) {
+            for(int i=0; i<12; i++) {
                 for (int j = 0; j < 5; j++) {
                     for (int k = 0; k <= 0; k++) {
                         vec3 cell_center(theCellSize*(i+0.5), theCellSize*(j+0.5), theCellSize*(k+0.5));
@@ -732,6 +732,20 @@ void SmokeSim::advectRenderingParticles(MACGrid &mGrid, double dt)
         vec3 averageVelocity = (currentVelocity + nextVelocity) / 2.0;
         vec3 betterNextPosition = currentPosition + averageVelocity * dt;
         vec3 clippedBetterNextPosition = mGrid.clipToGrid(betterNextPosition, currentPosition);
+        if(enableSphere)
+        {
+            vec3 vel;
+            vec3 centr(mGrid.sphereC[0]+1.0,mGrid.sphereC[1],mGrid.sphereC[2]+1.0);
+            double r = 10 * theCellSize;
+            centr *= theCellSize;
+            double radius = Distance(centr, clippedBetterNextPosition);
+            if (radius < r) {
+                cout<<"reach3";
+                vec3 pos2c = clippedBetterNextPosition - centr;
+                pos2c = r * pos2c / radius;
+                clippedBetterNextPosition = pos2c + centr;
+            }
+        }
         mGrid.rendering_particles[p] = clippedBetterNextPosition;
 		mGrid.rendering_particles_vel[p] = averageVelocity;
 	}
