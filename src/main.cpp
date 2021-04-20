@@ -235,6 +235,9 @@ int main(int argc, char **argv)
     glutAddMenuEntry("_________________", -1);
     glutAddMenuEntry("Exit", 27);
     glutAttachMenu(GLUT_RIGHT_BUTTON);
+	
+		theSmokeSim.sourcePosX = -100;
+		theSmokeSim.sourcePosY = -100;
 
     init();
 

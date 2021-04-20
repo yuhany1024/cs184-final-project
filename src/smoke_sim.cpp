@@ -24,7 +24,7 @@ void SmokeSim::reset()
 void SmokeSim::updateSources(MACGrid &mGrid)
 {
 	// Comupute source position
-	int radius = 2;//source radius
+	int radius = 3;//source radius
 	std::vector<std::vector<int>> mysource;
 	for (int i=sourcePosX-radius;i<=sourcePosX+radius;i++){
 		for (int j=sourcePosY-radius;j<=sourcePosY+radius;j++){
@@ -60,6 +60,8 @@ void SmokeSim::updateSources(MACGrid &mGrid)
 				mGrid.rendering_particles.push_back(xp);
 		}
 	}
+	//reset the source
+	sourcePosX = -100; sourcePosY = -100;
 }
 
 /*
