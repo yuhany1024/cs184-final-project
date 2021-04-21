@@ -9,7 +9,11 @@ class SmokeSim : public Simulator
 public:
     SmokeSim();
     virtual ~SmokeSim() {}
-		int sourcePosX = 0; int sourcePosY = 0;
+		int userInput = 0; // source = 0; force = 1
+		int sourcePosX = -100; int sourcePosY = -100;
+		int forcePosX = -100; int forcePosY = -100;
+		int forceX = 100; int forceY = 100;
+	
     void reset();
     void step();
 
@@ -31,7 +35,8 @@ public:
     // Advection
     void advectTemperature(MACGrid &mGrid, double dt);    
     void advectDensity(MACGrid &mGrid, double dt);    
-    void advectRenderingParticles(MACGrid &mGrid, double dt);    
+    void advectRenderingParticles(MACGrid &mGrid, double dt);
+	void userForce(MACGrid &mGrid);
 };
 
 #endif

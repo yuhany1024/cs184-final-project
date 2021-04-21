@@ -10,15 +10,15 @@
 #include <string.h>
 
 const int theDim[3] = {32, 32, 1};
-//const int theContainer[3] = {30, 30, 10};   // For fluid
 
 // Geometry and whatnot
 SmokeSim theSmokeSim;
 Camera theCamera;
 mmc::FpsTracker theFpsTracker;
-
+int windowSize = 480;
 
 // UI Helpers
+int lastX = 0, lastY = 0;
 int theMenu = 0;
 int theButtonState = 0;
 int theModifierState = 0;
@@ -42,17 +42,34 @@ void initCamera(){
 
 void onMouseMotionCb(int x, int y)
 {
-	theSmokeSim.sourcePosX = int(-theDim[0]/480.*x+theDim[0]);
-	theSmokeSim.sourcePosY = int(-theDim[1]/480.*y+theDim[1]);
+	if (theSmokeSim.userInput == 0){ //source
+		theSmokeSim.sourcePosX = int(-theDim[0]*1.0/windowSize*x+theDim[0]);
+		theSmokeSim.sourcePosY = int(-theDim[1]*1.0/windowSize*y+theDim[1]);
+	}else if (theSmokeSim.userInput == 1){//force
+		theSmokeSim.forceX = 300*(x - lastX);
+		theSmokeSim.forceY = 300*(y - lastY);
+	}
+	
+	
+	lastX = x;
+	lastY = y;
 	glutPostRedisplay();
 }
 
 void onMouseCb(int button, int state, int x, int y){
 	theButtonState = button;
 	theModifierState = glutGetModifiers();
+	lastX = x;
+	lastY = y;
+	
+	if (theSmokeSim.userInput == 0){ //source
+		theSmokeSim.sourcePosX = int(-theDim[0]/480.*x+theDim[0]);
+		theSmokeSim.sourcePosY = int(-theDim[1]/480.*y+theDim[1]);
+	}else if (theSmokeSim.userInput == 1){ //force
+		theSmokeSim.forcePosX = int(-theDim[0]/480.*x+theDim[0]);
+		theSmokeSim.forcePosY = int(-theDim[1]/480.*y+theDim[1]);
+	}
 
-	theSmokeSim.sourcePosX = int(-theDim[0]/480.*x+theDim[0]);
-	theSmokeSim.sourcePosY = int(-theDim[1]/480.*y+theDim[1]);
 	
 	glutSetMenu(theMenu);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
@@ -61,18 +78,21 @@ void onMouseCb(int button, int state, int x, int y){
 
 void onKeyboardCb(unsigned char key, int x, int y)
 {
-   if (key == ' ') theCamera.reset();
-   else if (key == 'v') MACGrid::theDisplayVel = !MACGrid::theDisplayVel;
-   else if (key == 'r') {
-		 theSmokeSim.setRecording(!theSmokeSim.isRecording(), savedWidth, savedHeight);
-    }
-   else if (key == '>') isRunning = true;
-   else if (key == '=') isRunning = false;
-   else if (key == '<') {
-		 theSmokeSim.reset();
-   }
-   else if (key == 27) exit(0); // ESC Key
-   glutPostRedisplay();
+	if (key == ' ') theCamera.reset();
+	else if (key == 'v') MACGrid::theDisplayVel = !MACGrid::theDisplayVel;
+	else if (key == 'r') {
+	 theSmokeSim.setRecording(!theSmokeSim.isRecording(), savedWidth, savedHeight);
+	}
+	else if (key == '>') isRunning = true;
+	else if (key == '=') isRunning = false;
+	else if (key == '<') theSmokeSim.reset();
+	else if (key == 27) exit(0); // ESC Key
+	else if (key == 'f')
+		theSmokeSim.userInput = 1;
+	else if (key == 's')
+		theSmokeSim.userInput = 0;
+	
+	glutPostRedisplay();
 }
 
 void onMenuCb(int value)
@@ -173,42 +193,47 @@ void init(void)
 
 int main(int argc, char **argv)
 {
-    glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
-    glutInitWindowSize(480, 480);
-    glutInitWindowPosition(100, 100);
-    
-		glutCreateWindow("Smoke Simulation");
-
-    glutDisplayFunc(onDrawCb);
-    glutKeyboardFunc(onKeyboardCb);
-    glutMouseFunc(onMouseCb);
-    glutMotionFunc(onMouseMotionCb); 
-    glutTimerFunc(theMillisecondsPerFrame, onTimerCb, 0); 
-    glutReshapeFunc(onResizeCb);
-
-    int viewMenu = glutCreateMenu(onMenuCb);
-    glutAddMenuEntry("Toggle velocities\t'v'", 'v');
-    glutAddMenuEntry("Render density as cubes\t'0'", '0');
-    glutAddMenuEntry("Render density as sheets\t'1'", '1');
-
-    theMenu = glutCreateMenu(onMenuCb);
-    glutAddMenuEntry("Start\t'>'", '>');
-    glutAddMenuEntry("Pause\t'='", '=');
-    glutAddMenuEntry("Reset\t'<'", '<');
-    glutAddMenuEntry("Reset camera\t' '", ' ');
-    glutAddMenuEntry("Record\t'r'", 'r');
-    glutAddSubMenu("Display", viewMenu);
-    glutAddMenuEntry("_________________", -1);
-    glutAddMenuEntry("Exit", 27);
-    glutAttachMenu(GLUT_RIGHT_BUTTON);
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
+	glutInitWindowSize(windowSize, windowSize);
+	glutInitWindowPosition(100, 100);
 	
-		theSmokeSim.sourcePosX = -100;
-		theSmokeSim.sourcePosY = -100;
+	glutCreateWindow("Smoke Simulation");
 
-    init();
+	glutDisplayFunc(onDrawCb);
+	glutKeyboardFunc(onKeyboardCb);
+	glutMouseFunc(onMouseCb);
+	glutMotionFunc(onMouseMotionCb);
+	glutTimerFunc(theMillisecondsPerFrame, onTimerCb, 0);
+	glutReshapeFunc(onResizeCb);
 
-    glutMainLoop();
-    return 0;             
+	int viewMenu = glutCreateMenu(onMenuCb);
+	glutAddMenuEntry("Toggle velocities\t'v'", 'v');
+	glutAddMenuEntry("Render density as cubes\t'0'", '0');
+	glutAddMenuEntry("Render density as sheets\t'1'", '1');
+	
+	int forceMenu = glutCreateMenu(onMenuCb);
+	glutAddMenuEntry("Toggle external force\t'f'", 'f');
+	glutAddMenuEntry("Toggle smoke source\t's'", 's');
+
+	theMenu = glutCreateMenu(onMenuCb);
+	glutAddMenuEntry("Start\t'>'", '>');
+	glutAddMenuEntry("Pause\t'='", '=');
+	glutAddMenuEntry("Reset\t'<'", '<');
+	glutAddMenuEntry("Reset camera\t' '", ' ');
+	glutAddMenuEntry("Record\t'r'", 'r');
+	glutAddSubMenu("Display", viewMenu);
+	glutAddSubMenu("left click", forceMenu);
+	glutAddMenuEntry("_________________", -1);
+	glutAddMenuEntry("Exit", 27);
+	glutAttachMenu(GLUT_RIGHT_BUTTON);
+
+	theSmokeSim.sourcePosX = -100;
+	theSmokeSim.sourcePosY = -100;
+
+	init();
+
+	glutMainLoop();
+	return 0;
 }
 

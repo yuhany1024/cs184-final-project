@@ -21,8 +21,7 @@ void SmokeSim::reset()
 	mTotalFrameNum = 0;
 }
 
-void SmokeSim::updateSources(MACGrid &mGrid)
-{
+void SmokeSim::updateSources(MACGrid &mGrid){
 	// Comupute source position
 	int radius = 3;//source radius
 	std::vector<std::vector<int>> mysource;
@@ -43,20 +42,6 @@ void SmokeSim::updateSources(MACGrid &mGrid)
 
 	}
 
-// Refresh particles in source.
-	for (auto & pos : mysource) {
-		int i = pos[0];
-		int j = pos[1];
-		vec3 cell_center(theCellSize*(i+0.5), theCellSize*(j+0.5), theCellSize*(0.5));
-		for(int p=0; p<10; p++) {
-				double a = ((float) rand() / RAND_MAX - 0.5) * theCellSize;
-				double b = ((float) rand() / RAND_MAX - 0.5) * theCellSize;
-				double c = ((float) rand() / RAND_MAX - 0.5) * theCellSize;
-				vec3 shift(a, b, c);
-				vec3 xp = cell_center + shift;
-				mGrid.rendering_particles.push_back(xp);
-		}
-	}
 	//reset the source
 	sourcePosX = -100; sourcePosY = -100;
 }
@@ -124,24 +109,30 @@ void SmokeSim::computeBouyancy(MACGrid &mGrid, double dt)
 	// TODO: Calculate bouyancy and store in target
     // TODO: Your code is here. It modifies target.mV for all y face velocities.
 
-	FOR_EACH_FACE 
-    {
+	FOR_EACH_FACE {
 		if (mGrid.isValidFace(MACGrid::Y, i, j, k)) {
 			vec3 currPos = mGrid.getFacePosition(MACGrid::Y, i, j, k);
-
-            double temp = mGrid.getTemperature(currPos);
-    	    double ambientTemp = 300;
-            double s = mGrid.getDensity(currPos);
-
-            // Equation 5.1
-            vec3 fBuoy(0, -theBuoyancyAlpha * s + theBuoyancyBeta * (temp - ambientTemp), 0);
-
-            target.mV(i, j, k) = mGrid.mV(i, j, k) + fBuoy[1];
+			double temp = mGrid.getTemperature(currPos);
+			double ambientTemp = 300;
+			double s = mGrid.getDensity(currPos);
+			// Equation 5.1
+			vec3 fBuoy(0, -theBuoyancyAlpha * s + theBuoyancyBeta * (temp - ambientTemp), 0);
+			target.mV(i, j, k) = mGrid.mV(i, j, k) + fBuoy[1];
 		}
 	}
 
     // and then save the result to our object
     mGrid.mV = target.mV;
+}
+
+void SmokeSim::userForce(MACGrid &mGrid){
+
+	if (forcePosX >=0 and forcePosX<theDim[0] and forcePosY>=0 and forcePosY<theDim[1]){
+		mGrid.mU(forcePosX, forcePosX, 1) += forceX;
+		mGrid.mV(forcePosX, forcePosY, 1) += forceY;
+	}
+	forcePosX = -100; forcePosY = -100;
+	
 }
 
 /*
@@ -243,8 +234,9 @@ void SmokeSim::applyVorticityConfinement(MACGrid &mGrid, vec3 &fConf, int &i, in
 
 void SmokeSim::addExternalForces(MACGrid &mGrid, double dt)
 {
-   computeBouyancy(mGrid, dt);
-   computeVorticityConfinement(mGrid, dt);
+	computeBouyancy(mGrid, dt);
+	computeVorticityConfinement(mGrid, dt);
+	userForce(mGrid);
 }
 
 void SmokeSim::computeDivergence(MACGrid &mGrid, GridData &d)

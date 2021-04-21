@@ -1,8 +1,6 @@
 #ifndef MACGrid_H_
 #define MACGrid_H_
 
-#pragma warning(disable: 4244 4267 4996)
-
 #include <math.h>
 #include <map>
 #include <stdio.h>
@@ -50,8 +48,6 @@ public:
 	{
 		// RK2
 		vec3 newPos = vec3(0,0,0);
-		vec3 k1 = vel * pos * dt / 2;
-		vec3 k2 = vel * (pos + k1) * dt;
 		newPos = pos + vel * dt;
 
 		return clamp(newPos);
