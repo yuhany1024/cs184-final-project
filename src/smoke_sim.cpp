@@ -1,4 +1,5 @@
 #include "smoke_sim.h"
+
 #define  enableSphere true
 // MACGrid target;
 MACGrid target;
@@ -44,14 +45,7 @@ void SmokeSim::updateSources(MACGrid &mGrid){
 
 	}
 
-    for (int i=mGrid.sphereC[0]-radius;i<=mGrid.sphereC[0]+radius;i++){
-        for (int j=mGrid.sphereC[1]-radius;j<=mGrid.sphereC[1]+radius;j++){
-        mGrid.mV(i,j,0) = 10.0;
-        mGrid.mD(i,j,0) = 10.0;
-        mGrid.mT(i,j,0) = 10.0;
-        }
 
-    }
 
 // Refresh particles in source.
 	for (auto & pos : mysource) {
@@ -69,6 +63,7 @@ void SmokeSim::updateSources(MACGrid &mGrid){
 	}
 	//reset the source
 	sourcePosX = -100; sourcePosY = -100;
+
 }
 
 /*
@@ -713,12 +708,12 @@ void SmokeSim::advectRenderingParticles(MACGrid &mGrid, double dt)
         {
             vec3 vel;
             vec3 centr(mGrid.sphereC[0]+1.0,mGrid.sphereC[1],mGrid.sphereC[2]+1.0);
-            double r = 10 * theCellSize;
+            double r = 10*theCellSize;
             centr *= theCellSize;
             double radius = Distance(centr, clippedBetterNextPosition);
             if (radius < r) {
                 vec3 pos2c = clippedBetterNextPosition - centr;
-                pos2c = r * pos2c / radius;
+                //pos2c = r * pos2c / radius;
                 clippedBetterNextPosition = pos2c + centr;
             }
         } 

@@ -1,5 +1,6 @@
 #include "mac_grid.h"
 
+
 #undef max
 #undef min 
 #define enableSphere true
@@ -11,7 +12,25 @@ MACGrid::MACGrid()
 {
     initialize();
     cout<<sphereC<<endl;
+    //drawSphere();
+    /*
+    double radius = 10*theCellSize;
+    for (int i=sphereC[0]-radius;i<=sphereC[0]+radius;i++){
+      for (int j=sphereC[1]-radius;j<=sphereC[1]+radius;j++){
+        if ((i-sphereC[0])*(i-sphereC[0])+(j-sphereC[1])*(j-sphereC[1])<=radius*radius){
+          cout<<"reach1"<<endl;
+          mV(i,j,0.0) = 10.0;
+          mD(i,j,0.0) = 10.0;
+          mT(i,j,0.0) = 10.0;
+          vec3 posi(i,j,1.0);
+          //glColor3f(0.0f, 0.0f, 1.0f);
+          //glVertex3d(1,1,0.0);
+      }
+
+    }
+    }
     //draw();
+    */
 }
 
 MACGrid::MACGrid(const MACGrid& orig)
@@ -74,16 +93,18 @@ vec3 MACGrid::getVelocity(const vec3& pt)
     }
     else
     {
-        if (radius > 10 * theCellSize) {
+        if (radius > 10*theCellSize) {
             vel[0] = getVelocityX(pt);
             vel[1] = getVelocityY(pt);
             vel[2] = getVelocityZ(pt);
             return vel;
-        } else if (radius <= 10 * theCellSize) {
+        } else if (radius <= 10*theCellSize) {
             vec3 curvel(mU.interpolate(pt), mV.interpolate(pt), mW.interpolate(pt));
             vec3 pro = Dot(curvel, (pt - centr)) * (pt - centr).Normalize();
             return (curvel - pro);
+            //return -curvel;
         }
+
     }
 }
 
@@ -726,47 +747,12 @@ void MACGrid::drawCube(const MACGrid::Cube& cube)
 
 void MACGrid::drawSphere()
 {
-   glColor4f(0.0, 1.0, 0.0, 1.0);
-   glPushMatrix();
-      //glTranslated(sphereC[0], sphereC[1], sphereC[2]);      
-      glTranslated(1.0, 1.0, 1.0);    
-      glScaled(theCellSize, theCellSize, theCellSize);
-      glBegin(GL_QUADS);
-         glNormal3d( 0.0, -1.0,  0.0);
-         glVertex3d(-LEN, -LEN, -LEN);
-         glVertex3d(-LEN, -LEN,  LEN);
-         glVertex3d( LEN, -LEN,  LEN);
-         glVertex3d( LEN, -LEN, -LEN);         
-
-         glNormal3d( 0.0,  0.0, -0.0);
-         glVertex3d(-LEN, -LEN, -LEN);
-         glVertex3d(-LEN,  LEN, -LEN);
-         glVertex3d( LEN,  LEN, -LEN);
-         glVertex3d( LEN, -LEN, -LEN);
-
-         glNormal3d(-1.0,  0.0,  0.0);
-         glVertex3d(-LEN, -LEN, -LEN);
-         glVertex3d(-LEN, -LEN,  LEN);
-         glVertex3d(-LEN,  LEN,  LEN);
-         glVertex3d(-LEN,  LEN, -LEN);
-
-         glNormal3d( 0.0, 1.0,  0.0);
-         glVertex3d(-LEN, LEN, -LEN);
-         glVertex3d(-LEN, LEN,  LEN);
-         glVertex3d( LEN, LEN,  LEN);
-         glVertex3d( LEN, LEN, -LEN);
-
-         glNormal3d( 0.0,  0.0, 1.0);
-         glVertex3d(-LEN, -LEN, LEN);
-         glVertex3d(-LEN,  LEN, LEN);
-         glVertex3d( LEN,  LEN, LEN);
-         glVertex3d( LEN, -LEN, LEN);
-
-         glNormal3d(1.0,  0.0,  0.0);
-         glVertex3d(LEN, -LEN, -LEN);
-         glVertex3d(LEN, -LEN,  LEN);
-         glVertex3d(LEN,  LEN,  LEN);
-         glVertex3d(LEN,  LEN, -LEN);
-      glEnd();
-   glPopMatrix();
+    float xRotated = 90.0, yRotated = 0.0, zRotated = 0.0;
+    glColor3f (0.8, 0.2, 0.1);              // Red ball displaced to left.
+    glPushMatrix ();
+       glTranslatef    (-1.5, 0.0, 0.0);
+       glRotatef       (60.0, 1,0,0);
+       glRotatef       (zRotated*2.0, 0,0,1);   // Red ball rotates at twice the rate of blue ball.
+       glutSolidSphere (1.0, 20, 50);
+    glPopMatrix ();
 }

@@ -8,14 +8,14 @@
 #include "util/open_gl_headers.h" 
 #include "util/basic_math.h"
 #include <string.h>
-
+int counting=0;
 const int theDim[3] = {32, 32, 1};
 
 // Geometry and whatnot
 SmokeSim theSmokeSim;
 Camera theCamera;
 mmc::FpsTracker theFpsTracker;
-int windowSize = 480;
+int windowSize = 600;
 
 // UI Helpers
 int lastX = 0, lastY = 0;
@@ -190,17 +190,30 @@ void init(void)
     glDisable(GL_LIGHTING);
     glCullFace(GL_BACK);
 }
-
+void DrawSphere()
+{
+    float xRotated = 90.0, yRotated = 0.0, zRotated = 0.0;
+    glColor3f (0.8, 0.2, 0.1);              // Red ball displaced to left.
+    glPushMatrix ();
+       //glTranslatef  (-1.5, 0.0, 0.0);
+       //glRotatef       (60.0, 1,0,0);
+       //glRotatef       (zRotated*2.0, 0,0,1);   // Red ball rotates at twice the rate of blue ball.
+       gluSphere (gluNewQuadric(), 10, 1.0,1.0);
+    glPopMatrix ();
+    cout<<"finished"<<endl;
+}
 int main(int argc, char **argv)
 {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
 	glutInitWindowSize(windowSize, windowSize);
-	glutInitWindowPosition(100, 100);
+	glutInitWindowPosition(500, 500);
 	
 	glutCreateWindow("Smoke Simulation");
 
 	glutDisplayFunc(onDrawCb);
+
+
 	glutKeyboardFunc(onKeyboardCb);
 	glutMouseFunc(onMouseCb);
 	glutMotionFunc(onMouseMotionCb);
@@ -232,8 +245,14 @@ int main(int argc, char **argv)
 	theSmokeSim.sourcePosY = -100;
 
 	init();
-
+	if (counting==0) {
+	    //glutDisplayFunc(DrawSphere);
+	    counting=1;
+	}
 	glutMainLoop();
 	return 0;
 }
+
+
+
 
