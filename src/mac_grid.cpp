@@ -79,7 +79,7 @@ vec3 MACGrid::getVelocity(const vec3& pt)
             vel[1] = getVelocityY(pt);
             vel[2] = getVelocityZ(pt);
             return vel;
-        } else if (radius == 10 * theCellSize) {
+        } else if (radius <= 10 * theCellSize) {
             vec3 curvel(mU.interpolate(pt), mV.interpolate(pt), mW.interpolate(pt));
             vec3 pro = Dot(curvel, (pt - centr)) * (pt - centr).Normalize();
             return (curvel - pro);
@@ -404,8 +404,8 @@ vec4 MACGrid::getRenderColor(int i, int j, int k)
 {
 	
 	double value = mD(i, j, k); 
-	vec4 coldColor(0.5, 0.5, 1.0, value);
-	vec4 hotColor(1.0, 0.5, 0.5, value);
+	vec4 coldColor(0.3, 0.3, 1.0, value);
+	vec4 hotColor(1.0, 0.7, 0.7, value);
     return LERP(coldColor, hotColor, mT(i, j, k));
 	
 

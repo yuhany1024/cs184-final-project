@@ -25,6 +25,8 @@ void SmokeSim::updateSources(MACGrid &mGrid){
 	// Comupute source position
 	int radius = 3;//source radius
 	std::vector<std::vector<int>> mysource;
+    cout<<sourcePosX<<endl;
+    cout<<sourcePosY<<endl;
 	for (int i=sourcePosX-radius;i<=sourcePosX+radius;i++){
 		for (int j=sourcePosY-radius;j<=sourcePosY+radius;j++){
 			if (i>=0 and i<theDim[0] and j>=0 and j<theDim[1])
@@ -42,6 +44,29 @@ void SmokeSim::updateSources(MACGrid &mGrid){
 
 	}
 
+    for (int i=mGrid.sphereC[0]-radius;i<=mGrid.sphereC[0]+radius;i++){
+        for (int j=mGrid.sphereC[1]-radius;j<=mGrid.sphereC[1]+radius;j++){
+        mGrid.mV(i,j,0) = 10.0;
+        mGrid.mD(i,j,0) = 10.0;
+        mGrid.mT(i,j,0) = 10.0;
+        }
+
+    }
+
+// Refresh particles in source.
+	for (auto & pos : mysource) {
+		int i = pos[0];
+		int j = pos[1];
+		vec3 cell_center(theCellSize*(i+0.5), theCellSize*(j+0.5), theCellSize*(0.5));
+		for(int p=0; p<10; p++) {
+				double a = ((float) rand() / RAND_MAX - 0.5) * theCellSize;
+				double b = ((float) rand() / RAND_MAX - 0.5) * theCellSize;
+				double c = ((float) rand() / RAND_MAX - 0.5) * theCellSize;
+				vec3 shift(a, b, c);
+				vec3 xp = cell_center + shift;
+				mGrid.rendering_particles.push_back(xp);
+		}
+	}
 	//reset the source
 	sourcePosX = -100; sourcePosY = -100;
 }
@@ -696,9 +721,10 @@ void SmokeSim::advectRenderingParticles(MACGrid &mGrid, double dt)
                 pos2c = r * pos2c / radius;
                 clippedBetterNextPosition = pos2c + centr;
             }
-        }
+        } 
         mGrid.rendering_particles[p] = clippedBetterNextPosition;
 		mGrid.rendering_particles_vel[p] = averageVelocity;
+        
 	}
 }
 
