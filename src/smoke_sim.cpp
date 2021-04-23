@@ -43,22 +43,6 @@ void SmokeSim::updateSources(MACGrid &mGrid){
 
 	}
 
-
-
-// Refresh particles in source.
-	for (auto & pos : mysource) {
-		int i = pos[0];
-		int j = pos[1];
-		vec3 cell_center(theCellSize*(i+0.5), theCellSize*(j+0.5), theCellSize*(0.5));
-		for(int p=0; p<10; p++) {
-				double a = ((float) rand() / RAND_MAX - 0.5) * theCellSize;
-				double b = ((float) rand() / RAND_MAX - 0.5) * theCellSize;
-				double c = ((float) rand() / RAND_MAX - 0.5) * theCellSize;
-				vec3 shift(a, b, c);
-				vec3 xp = cell_center + shift;
-				mGrid.rendering_particles.push_back(xp);
-		}
-	}
 	//reset the source
 	sourcePosX = -100; sourcePosY = -100;
 

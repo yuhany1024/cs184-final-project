@@ -425,8 +425,8 @@ vec4 MACGrid::getRenderColor(int i, int j, int k)
 {
 	
 	double value = mD(i, j, k); 
-	vec4 coldColor(0.3, 0.3, 1.0, value);
-	vec4 hotColor(1.0, 0.7, 0.7, value);
+	vec4 coldColor(0.3, 0.3, 1, value);
+	vec4 hotColor(1, 0.7 , 0.7, value);
     return LERP(coldColor, hotColor, mT(i, j, k));
 	
 
@@ -601,8 +601,9 @@ void MACGrid::drawSmokeCubes(const Camera& c)
    FOR_EACH_CELL{
 			MACGrid::Cube cube;
 		 int centerX = 16, centerY = 16, radius = 5;
-		 if ((i-centerX)*(i-centerX)+(j-centerY)*(j-centerY)<=radius*radius){
-			 cube.color = vec4 (1,0,0,1);
+		 double distSphere = std::sqrt((i-centerX)*(i-centerX)+(j-centerY)*(j-centerY));
+		 if (distSphere<=radius){
+			 cube.color = vec4 (1,1,1, 1 - distSphere/radius/2);
 		 }else{
 			cube.color = getRenderColor(i,j,k);
 		 }
