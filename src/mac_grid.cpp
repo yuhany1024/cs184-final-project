@@ -598,13 +598,17 @@ void MACGrid::drawSmoke(const Camera& c)
 void MACGrid::drawSmokeCubes(const Camera& c)
 {
    std::multimap<double, MACGrid::Cube, std::greater<double> > cubes;
-   FOR_EACH_CELL
-   {
-      MACGrid::Cube cube;
-      cube.color = getRenderColor(i,j,k);
-      cube.pos = getCenter(i,j,k);
-      cube.dist = DistanceSqr(cube.pos, c.getPosition());
-      cubes.insert(make_pair(cube.dist, cube));
+   FOR_EACH_CELL{
+			MACGrid::Cube cube;
+		 int centerX = 16, centerY = 16, radius = 5;
+		 if ((i-centerX)*(i-centerX)+(j-centerY)*(j-centerY)<=radius*radius){
+			 cube.color = vec4 (1,0,0,1);
+		 }else{
+			cube.color = getRenderColor(i,j,k);
+		 }
+			cube.pos = getCenter(i,j,k);
+			cube.dist = DistanceSqr(cube.pos, c.getPosition());
+			cubes.insert(make_pair(cube.dist, cube));
    } 
 
    // Draw cubes from back to front
@@ -742,17 +746,4 @@ void MACGrid::drawCube(const MACGrid::Cube& cube)
          glVertex3d(LEN,  LEN, -LEN);
       glEnd();
    glPopMatrix();
-}
-
-
-void MACGrid::drawSphere()
-{
-    float xRotated = 90.0, yRotated = 0.0, zRotated = 0.0;
-    glColor3f (0.8, 0.2, 0.1);              // Red ball displaced to left.
-    glPushMatrix ();
-       glTranslatef    (-1.5, 0.0, 0.0);
-       glRotatef       (60.0, 1,0,0);
-       glRotatef       (zRotated*2.0, 0,0,1);   // Red ball rotates at twice the rate of blue ball.
-       glutSolidSphere (1.0, 20, 50);
-    glPopMatrix ();
 }

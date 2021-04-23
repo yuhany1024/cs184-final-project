@@ -26,8 +26,6 @@ void SmokeSim::updateSources(MACGrid &mGrid){
 	// Comupute source position
 	int radius = 3;//source radius
 	std::vector<std::vector<int>> mysource;
-    cout<<sourcePosX<<endl;
-    cout<<sourcePosY<<endl;
 	for (int i=sourcePosX-radius;i<=sourcePosX+radius;i++){
 		for (int j=sourcePosY-radius;j<=sourcePosY+radius;j++){
 			if (i>=0 and i<theDim[0] and j>=0 and j<theDim[1])

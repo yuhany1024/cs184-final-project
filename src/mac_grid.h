@@ -81,7 +81,6 @@ public:
 	void drawSmokeCubes(const Camera& c);
 	void drawSmoke(const Camera& c);
 	void drawCube(const MACGrid::Cube& c);
-	void drawSphere();
 	void drawParticles(const Camera &c);
 	void drawFace(const MACGrid::Cube& c);
 	void drawVelocities();
