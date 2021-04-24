@@ -41,6 +41,14 @@ void SmokeSim::updateSources(MACGrid &mGrid){
 		mGrid.mD(i,j,0) = 1.0;
 		mGrid.mT(i,j,0) = 1.0;
 
+        if (mode == 1) {
+            mGrid.mT(i,j,0) = 1.0;
+        } else if (mode == 2) {
+            mGrid.mT(i,j,0) = 2.0;
+        } else {
+            mGrid.mT(i,j,0) = 3.0;
+        }
+
 	}
 
 	//reset the source
@@ -695,7 +703,7 @@ void SmokeSim::advectRenderingParticles(MACGrid &mGrid, double dt)
             double radius = Distance(centr, clippedBetterNextPosition);
             if (radius < r) {
                 vec3 pos2c = clippedBetterNextPosition - centr;
-                //pos2c = r * pos2c / radius;
+                pos2c = r * pos2c / radius;
                 clippedBetterNextPosition = pos2c + centr;
             }
         } 

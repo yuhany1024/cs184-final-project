@@ -600,7 +600,7 @@ void MACGrid::drawSmokeCubes(const Camera& c)
    std::multimap<double, MACGrid::Cube, std::greater<double> > cubes;
    FOR_EACH_CELL{
 			MACGrid::Cube cube;
-		 int centerX = 16, centerY = 16, radius = 5;
+		 int centerX = 11, centerY = 11, radius = 10*theCellSize;
 		 double distSphere = std::sqrt((i-centerX)*(i-centerX)+(j-centerY)*(j-centerY));
 		 if (distSphere<=radius){
 			 cube.color = vec4 (1,1,1, 1 - distSphere/radius/2);

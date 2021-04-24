@@ -13,6 +13,7 @@ public:
 		int sourcePosX = -100; int sourcePosY = -100;
 		int forcePosX = -100; int forcePosY = -100;
 		int forceX = 100; int forceY = 100;
+        int mode = 1;
 	
     void reset();
     void step();

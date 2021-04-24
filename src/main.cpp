@@ -90,6 +90,12 @@ void onKeyboardCb(unsigned char key, int x, int y)
 		theSmokeSim.userInput = 1;
 	else if (key == 's')
 		theSmokeSim.userInput = 0;
+	else if (key == 'a')
+		theSmokeSim.mode = 1;
+	else if (key == 'b')
+		theSmokeSim.mode = 2;
+	else if (key == 'c')
+		theSmokeSim.mode = 3;
 	
 	glutPostRedisplay();
 }
