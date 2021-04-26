@@ -15,7 +15,7 @@ SmokeSim theSmokeSim;
 Camera theCamera;
 mmc::FpsTracker theFpsTracker;
 int windowSize = 600;
-
+int fg = -1;
 // UI Helpers
 int lastX = 0, lastY = 0;
 int theMenu = 0;
@@ -44,6 +44,7 @@ void onMouseMotionCb(int x, int y)
 	if (theSmokeSim.userInput == 0){ //source
 		theSmokeSim.sourcePosX = int(-theDim[0]*1.0/windowSize*x+theDim[0]);
 		theSmokeSim.sourcePosY = int(-theDim[1]*1.0/windowSize*y+theDim[1]);
+		fg = 1;
 	}else if (theSmokeSim.userInput == 1){//force
 		theSmokeSim.forceX = 300*(x - lastX);
 		theSmokeSim.forceY = 300*(y - lastY);
@@ -91,11 +92,19 @@ void onKeyboardCb(unsigned char key, int x, int y)
 	else if (key == 's')
 		theSmokeSim.userInput = 0;
 	else if (key == 'a')
+		//control t and d
+		//smoggy winter morning
 		theSmokeSim.mode = 1;
 	else if (key == 'b')
+		//control t and d
+		//smoke of fire in a small room
 		theSmokeSim.mode = 2;
-	else if (key == 'c')
-		theSmokeSim.mode = 3;
+	else if (key == 'x')
+		//make the sphere absorptive
+		theSmokeSim.ball = 1;
+	else if (key == 'r')
+		//make the sphere reflective
+		theSmokeSim.ball = 0;
 	
 	glutPostRedisplay();
 }
@@ -115,7 +124,12 @@ void onMenuCb(int value)
 void onTimerCb(int value)
 {
    if (isRunning) {
+   		 if (fg == 1) {
+   		 	theSmokeSim.update();
+   		 }
 		 theSmokeSim.step();
+
+ 		 fg = -1;
    }
    glutTimerFunc(theMillisecondsPerFrame, onTimerCb, 0);
    glutPostRedisplay();

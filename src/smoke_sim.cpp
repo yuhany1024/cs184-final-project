@@ -1,5 +1,5 @@
 #include "smoke_sim.h"
-
+#include <time.h>
 #define  enableSphere true
 // MACGrid target;
 MACGrid target;
@@ -43,8 +43,10 @@ void SmokeSim::updateSources(MACGrid &mGrid){
 
         if (mode == 1) {
             mGrid.mT(i,j,0) = 1.0;
+            mGrid.mD(i,j,0) = 0.5;
         } else if (mode == 2) {
-            mGrid.mT(i,j,0) = 2.0;
+            mGrid.mT(i,j,0) = 4.0;
+            mGrid.mD(i,j,0) = 3.0;
         } else {
             mGrid.mT(i,j,0) = 3.0;
         }
@@ -702,14 +704,24 @@ void SmokeSim::advectRenderingParticles(MACGrid &mGrid, double dt)
             centr *= theCellSize;
             double radius = Distance(centr, clippedBetterNextPosition);
             if (radius < r) {
-                vec3 pos2c = clippedBetterNextPosition - centr;
-                pos2c = r * pos2c / radius;
-                clippedBetterNextPosition = pos2c + centr;
+                if (ball!=1){
+                    vec3 pos2c = clippedBetterNextPosition - centr;
+                    pos2c = r * pos2c / radius;
+                    clippedBetterNextPosition = pos2c + centr;
+                    mGrid.rendering_particles[p] = clippedBetterNextPosition;
+                    mGrid.rendering_particles_vel[p] = averageVelocity;
+                    mGrid.rendering_particles[p] = clippedBetterNextPosition;
+                    mGrid.rendering_particles_vel[p] = averageVelocity;
+                }
+
+            } else {
+                mGrid.rendering_particles[p] = clippedBetterNextPosition;
+                mGrid.rendering_particles_vel[p] = averageVelocity;
             }
-        } 
-        mGrid.rendering_particles[p] = clippedBetterNextPosition;
-		mGrid.rendering_particles_vel[p] = averageVelocity;
-        
+        } else {
+            mGrid.rendering_particles[p] = clippedBetterNextPosition;
+    		mGrid.rendering_particles_vel[p] = averageVelocity;
+        }
 	}
 }
 
@@ -718,7 +730,7 @@ void SmokeSim::step()
 	double dt = 0.04;//0.1;
 
 	// Step0: Gather user forces
-	updateSources(mGrid);
+	//updateSources(mGrid);
 
 	// Step1: Calculate new velocities
 	advectVelocity(mGrid, dt);
@@ -735,4 +747,9 @@ void SmokeSim::step()
 	advectRenderingParticles(mGrid, dt);
 
 	mTotalFrameNum++;
+}
+
+void SmokeSim::update()
+{
+    updateSources(mGrid);
 }

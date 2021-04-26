@@ -12,25 +12,7 @@ MACGrid::MACGrid()
 {
     initialize();
     cout<<sphereC<<endl;
-    //drawSphere();
-    /*
-    double radius = 10*theCellSize;
-    for (int i=sphereC[0]-radius;i<=sphereC[0]+radius;i++){
-      for (int j=sphereC[1]-radius;j<=sphereC[1]+radius;j++){
-        if ((i-sphereC[0])*(i-sphereC[0])+(j-sphereC[1])*(j-sphereC[1])<=radius*radius){
-          cout<<"reach1"<<endl;
-          mV(i,j,0.0) = 10.0;
-          mD(i,j,0.0) = 10.0;
-          mT(i,j,0.0) = 10.0;
-          vec3 posi(i,j,1.0);
-          //glColor3f(0.0f, 0.0f, 1.0f);
-          //glVertex3d(1,1,0.0);
-      }
 
-    }
-    }
-    //draw();
-    */
 }
 
 MACGrid::MACGrid(const MACGrid& orig)
@@ -425,9 +407,10 @@ vec4 MACGrid::getRenderColor(int i, int j, int k)
 {
 	
 	double value = mD(i, j, k); 
-	vec4 coldColor(0.3, 0.3, 1, value);
-	vec4 hotColor(1, 0.7 , 0.7, value);
-    return LERP(coldColor, hotColor, mT(i, j, k));
+	vec4 coldColor(0.5, 0.5, 1, value);
+	vec4 hotColor(1, 0.5, 0.5, value);
+  
+  return LERP(coldColor, hotColor, mT(i, j, k));
 	
 
 	/*
