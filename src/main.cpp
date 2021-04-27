@@ -8,7 +8,7 @@
 #include "util/open_gl_headers.h" 
 #include "util/basic_math.h"
 #include <string.h>
-const int theDim[3] = {32, 32, 1};
+const int theDim[3] = {64, 64, 1};
 
 // Geometry and whatnot
 SmokeSim theSmokeSim;
@@ -31,6 +31,7 @@ void initCamera(){
 	double h = theDim[1]*theCellSize;
 	double d = theDim[2]*theCellSize;
 	double angle = 0.5*theCamera.dfltVfov*BasicMath::PI/180.0;
+
 	double dist;
 	if (w > h) dist = w*0.5/std::tan(angle);  // aspect is 1, so i can do this
 	else dist = h*0.5/std::tan(angle);
