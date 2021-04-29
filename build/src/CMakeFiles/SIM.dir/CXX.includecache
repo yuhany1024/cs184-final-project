@@ -40,6 +40,10 @@ util/constants.h
 grid_data.h
 /Users/yuhany/cs184/final_project/smokeSim/src/grid_data.h
 
+/Users/yuhany/cs184/final_project/smokeSim/src/mac_grid.cpp
+mac_grid.h
+/Users/yuhany/cs184/final_project/smokeSim/src/mac_grid.h
+
 /Users/yuhany/cs184/final_project/smokeSim/src/mac_grid.h
 math.h
 -
@@ -78,53 +82,9 @@ Eigen/Sparse
 Eigen/Cholesky
 -
 
-/Users/yuhany/cs184/final_project/smokeSim/src/main.cpp
-simulator.h
-/Users/yuhany/cs184/final_project/smokeSim/src/simulator.h
-smoke_sim.h
-/Users/yuhany/cs184/final_project/smokeSim/src/smoke_sim.h
-camera.h
-/Users/yuhany/cs184/final_project/smokeSim/src/camera.h
-util/fps.h
-/Users/yuhany/cs184/final_project/smokeSim/src/util/fps.h
-util/constants.h
-/Users/yuhany/cs184/final_project/smokeSim/src/util/constants.h
-stdio.h
--
-cmath
--
-util/open_gl_headers.h
-/Users/yuhany/cs184/final_project/smokeSim/src/util/open_gl_headers.h
-util/basic_math.h
-/Users/yuhany/cs184/final_project/smokeSim/src/util/basic_math.h
-string.h
--
-
 /Users/yuhany/cs184/final_project/smokeSim/src/particle.h
 util/vec.h
 /Users/yuhany/cs184/final_project/smokeSim/src/util/vec.h
-
-/Users/yuhany/cs184/final_project/smokeSim/src/simulator.h
-fstream
--
-Partio.h
--
-util/constants.h
-/Users/yuhany/cs184/final_project/smokeSim/src/util/constants.h
-util/open_gl_headers.h
-/Users/yuhany/cs184/final_project/smokeSim/src/util/open_gl_headers.h
-util/stb_image_write.h
-/Users/yuhany/cs184/final_project/smokeSim/src/util/stb_image_write.h
-util/custom_output.h
-/Users/yuhany/cs184/final_project/smokeSim/src/util/custom_output.h
-util/basic_math.h
-/Users/yuhany/cs184/final_project/smokeSim/src/util/basic_math.h
-mac_grid.h
-/Users/yuhany/cs184/final_project/smokeSim/src/mac_grid.h
-
-/Users/yuhany/cs184/final_project/smokeSim/src/smoke_sim.h
-simulator.h
-/Users/yuhany/cs184/final_project/smokeSim/src/simulator.h
 
 /Users/yuhany/cs184/final_project/smokeSim/src/util/basic_math.h
 custom_output.h
@@ -142,12 +102,6 @@ iostream
 iostream
 -
 sstream
--
-
-/Users/yuhany/cs184/final_project/smokeSim/src/util/fps.h
-vector
--
-string.h
 -
 
 /Users/yuhany/cs184/final_project/smokeSim/src/util/matrix.h
@@ -202,18 +156,6 @@ OpenGL/gl.h
 OpenGL/glu.h
 -
 GLUT/glut.h
--
-
-/Users/yuhany/cs184/final_project/smokeSim/src/util/stb_image_write.h
-stdarg.h
--
-stdlib.h
--
-stdio.h
--
-string.h
--
-assert.h
 -
 
 /Users/yuhany/cs184/final_project/smokeSim/src/util/vec.h

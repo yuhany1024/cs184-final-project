@@ -377,7 +377,8 @@ void MACGrid::saveDensity(std::string filename){
 void MACGrid::draw(const Camera& c)
 {   
 	drawWireGrid();
-	drawSmokeCubes(c);
+	//drawSmokeCubes(c);
+	drawSmoke(c);
 }
 
 void MACGrid::drawVelocities()
@@ -462,10 +463,21 @@ void MACGrid::drawZSheets(bool backToFront)
          for (double i = 0.0; i <= right; i += stepsize)
          {
             vec3 pos1 = vec3(i,j,k); 
-            vec3 pos2 = vec3(i, j+stepsize, k); 
+            vec3 pos2 = vec3(i, j+stepsize, k);
+					 // --------sphere--------
+					 vec4 color1, color2;
+					 int centerX = 11, centerY = 11, radius = 3;
+					 double distSphere = std::sqrt((i-centerX)*(i-centerX)+(j-centerY)*(j-centerY));
+					 if (distSphere<=radius){
+						 color1 = vec4 (1,1,1, 1-distSphere/radius/2);
+						 color2 = vec4 (1,1,1, 1-distSphere/radius/2);
+					 }else{
+						 color1 = getRenderColor(pos1);
+						 color2 = getRenderColor(pos2);
+					 }
+					 //---------------------
+					 
 
-            vec4 color1 = getRenderColor(pos1);
-            vec4 color2 = getRenderColor(pos2);
 
             glColor4dv(color1.n);
             glVertex3dv(pos1.n);
@@ -481,9 +493,19 @@ void MACGrid::drawZSheets(bool backToFront)
          {
             vec3 pos1 = vec3(i,j,k); 
             vec3 pos2 = vec3(i, j+stepsize, k); 
-
-            vec4 color1 = getRenderColor(pos1);
-            vec4 color2 = getRenderColor(pos2);
+					 
+					 // --------sphere--------
+					 vec4 color1, color2;
+					 int centerX = 11, centerY = 11, radius = 3;
+					 double distSphere = std::sqrt((i-centerX)*(i-centerX)+(j-centerY)*(j-centerY));
+					 if (distSphere<=radius){
+						 color1 = vec4 (1,1,1, 1-distSphere/radius/2);
+						 color2 = vec4 (1,1,1, 1-distSphere/radius/2);
+					 }else{
+						 color1 = getRenderColor(pos1);
+						 color2 = getRenderColor(pos2);
+					 }
+					 //---------------------
 
             glColor4dv(color1.n);
             glVertex3dv(pos1.n);
@@ -526,9 +548,19 @@ void MACGrid::drawXSheets(bool backToFront)
          {
             vec3 pos1 = vec3(i,j,k); 
             vec3 pos2 = vec3(i, j+stepsize, k); 
-
-            vec4 color1 = getRenderColor(pos1);
-            vec4 color2 = getRenderColor(pos2);
+					 vec4 color1, color2;
+					 // --------sphere--------
+					int centerX = 11, centerY = 11, radius = 10*theCellSize;
+					double distSphere = std::sqrt((i-centerX)*(i-centerX)+(j-centerY)*(j-centerY));
+					if (distSphere<=radius){
+						std::cout << "x" << endl;
+						color1 = vec4 (1,1,1, 1);
+						color2 = vec4 (1,1,1, 1);
+					}else{
+						color1 = getRenderColor(pos1);
+						color2 = getRenderColor(pos2);
+					}
+					//---------------------
 
             glColor4dv(color1.n);
             glVertex3dv(pos1.n);

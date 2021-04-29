@@ -8,7 +8,7 @@
 #include "util/open_gl_headers.h" 
 #include "util/basic_math.h"
 #include <string.h>
-const int theDim[3] = {64, 64, 1};
+const int theDim[3] = {32, 32, 1};
 
 // Geometry and whatnot
 SmokeSim theSmokeSim;

@@ -725,6 +725,8 @@ void SmokeSim::advectRenderingParticles(MACGrid &mGrid, double dt)
 	}
 }
 
+
+
 void SmokeSim::step()
 {
 	double dt = 0.04;//0.1;
