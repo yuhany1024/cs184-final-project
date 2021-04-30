@@ -52,9 +52,19 @@ void SmokeSim::updateSources(MACGrid &mGrid){
         }
 
 	}
-
 	//reset the source
 	sourcePosX = -100; sourcePosY = -100;
+	
+	//scene1
+	if (scene == 1){
+		mGrid.mU(2,theDim[1]/2+10,0) = 100.0;
+		mGrid.mD(2,theDim[1]/2+10,0) = 1.0;
+		mGrid.mT(2,theDim[1]/2+10,0) = 1.0;
+		
+		mGrid.mU(theDim[0]-2,theDim[1]/2+10,0) = -100.0;
+		mGrid.mD(theDim[0]-2,theDim[1]/2+10,0) = 1.0;
+		mGrid.mT(theDim[0]-2,theDim[1]/2+10,0) = 1.0;
+	}
 
 }
 
@@ -134,7 +144,8 @@ void SmokeSim::computeBouyancy(MACGrid &mGrid, double dt)
 	}
 
     // and then save the result to our object
-    mGrid.mV = target.mV;
+		mGrid.mV = target.mV;
+    
 }
 
 void SmokeSim::userForce(MACGrid &mGrid){
@@ -144,7 +155,6 @@ void SmokeSim::userForce(MACGrid &mGrid){
 		mGrid.mV(forcePosX, forcePosY, 1) += forceY;
 	}
 	forcePosX = -100; forcePosY = -100;
-	
 }
 
 /*
@@ -732,7 +742,7 @@ void SmokeSim::step()
 	double dt = 0.04;//0.1;
 
 	// Step0: Gather user forces
-	//updateSources(mGrid);
+	updateSources(mGrid);
 
 	// Step1: Calculate new velocities
 	advectVelocity(mGrid, dt);
@@ -751,7 +761,3 @@ void SmokeSim::step()
 	mTotalFrameNum++;
 }
 
-void SmokeSim::update()
-{
-    updateSources(mGrid);
-}

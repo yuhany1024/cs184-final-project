@@ -15,12 +15,13 @@ public:
 		int forceX = 100; int forceY = 100;
         int mode = 1;
         int ball = 0;
+	int scene = 0;
+	
 	
     void reset();
     void step();
 
     void updateSources(MACGrid &mGrid);
-    void update();
     void advectVelocity(MACGrid &mGrid, double dt);
     // External forces
     void addExternalForces(MACGrid &mGrid, double dt);
