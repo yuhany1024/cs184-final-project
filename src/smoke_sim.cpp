@@ -1,6 +1,6 @@
 #include "smoke_sim.h"
 #include <time.h>
-#define  enableSphere true
+#define  enableSphere false
 // MACGrid target;
 MACGrid target;
 

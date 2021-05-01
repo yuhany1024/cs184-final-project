@@ -1,8 +1,8 @@
-# Install script for directory: /Users/yuhany/cs184/final_project/smokeSim
+# Install script for directory: /Users/han/cs184-final-project
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/Users/yuhany/homebrew")
+  set(CMAKE_INSTALL_PREFIX "/usr/local")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -34,13 +34,13 @@ endif()
 
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/objdump")
+  set(CMAKE_OBJDUMP "/Users/han/Downloads/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/objdump")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/Users/yuhany/cs184/final_project/smokeSim/build/Deps/cmake_install.cmake")
-  include("/Users/yuhany/cs184/final_project/smokeSim/build/src/cmake_install.cmake")
+  include("/Users/han/cs184-final-project/build/Deps/cmake_install.cmake")
+  include("/Users/han/cs184-final-project/build/src/cmake_install.cmake")
 
 endif()
 
@@ -52,5 +52,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/yuhany/cs184/final_project/smokeSim/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/han/cs184-final-project/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

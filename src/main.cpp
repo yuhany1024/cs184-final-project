@@ -104,7 +104,9 @@ void onKeyboardCb(unsigned char key, int x, int y)
 	else if (key == 'r')
 		//make the sphere reflective
 		theSmokeSim.ball = 0;
-	
+	else if (key == 'p')
+		//make the sphere reflective
+		theSmokeSim.enableball = 1;
 	glutPostRedisplay();
 }
 

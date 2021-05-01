@@ -2,34 +2,34 @@
 	"sources" : 
 	[
 		{
-			"file" : "/Users/yuhany/cs184/final_project/smokeSim/build/partio-download/CMakeFiles/partio-download"
+			"file" : "/Users/han/cs184-final-project/build/partio-download/CMakeFiles/partio-download"
 		},
 		{
-			"file" : "/Users/yuhany/cs184/final_project/smokeSim/build/partio-download/CMakeFiles/partio-download.rule"
+			"file" : "/Users/han/cs184-final-project/build/partio-download/CMakeFiles/partio-download.rule"
 		},
 		{
-			"file" : "/Users/yuhany/cs184/final_project/smokeSim/build/partio-download/CMakeFiles/partio-download-complete.rule"
+			"file" : "/Users/han/cs184-final-project/build/partio-download/CMakeFiles/partio-download-complete.rule"
 		},
 		{
-			"file" : "/Users/yuhany/cs184/final_project/smokeSim/build/partio-download/partio-download-prefix/src/partio-download-stamp/partio-download-install.rule"
+			"file" : "/Users/han/cs184-final-project/build/partio-download/partio-download-prefix/src/partio-download-stamp/partio-download-install.rule"
 		},
 		{
-			"file" : "/Users/yuhany/cs184/final_project/smokeSim/build/partio-download/partio-download-prefix/src/partio-download-stamp/partio-download-mkdir.rule"
+			"file" : "/Users/han/cs184-final-project/build/partio-download/partio-download-prefix/src/partio-download-stamp/partio-download-mkdir.rule"
 		},
 		{
-			"file" : "/Users/yuhany/cs184/final_project/smokeSim/build/partio-download/partio-download-prefix/src/partio-download-stamp/partio-download-download.rule"
+			"file" : "/Users/han/cs184-final-project/build/partio-download/partio-download-prefix/src/partio-download-stamp/partio-download-download.rule"
 		},
 		{
-			"file" : "/Users/yuhany/cs184/final_project/smokeSim/build/partio-download/partio-download-prefix/src/partio-download-stamp/partio-download-patch.rule"
+			"file" : "/Users/han/cs184-final-project/build/partio-download/partio-download-prefix/src/partio-download-stamp/partio-download-patch.rule"
 		},
 		{
-			"file" : "/Users/yuhany/cs184/final_project/smokeSim/build/partio-download/partio-download-prefix/src/partio-download-stamp/partio-download-configure.rule"
+			"file" : "/Users/han/cs184-final-project/build/partio-download/partio-download-prefix/src/partio-download-stamp/partio-download-configure.rule"
 		},
 		{
-			"file" : "/Users/yuhany/cs184/final_project/smokeSim/build/partio-download/partio-download-prefix/src/partio-download-stamp/partio-download-build.rule"
+			"file" : "/Users/han/cs184-final-project/build/partio-download/partio-download-prefix/src/partio-download-stamp/partio-download-build.rule"
 		},
 		{
-			"file" : "/Users/yuhany/cs184/final_project/smokeSim/build/partio-download/partio-download-prefix/src/partio-download-stamp/partio-download-test.rule"
+			"file" : "/Users/han/cs184-final-project/build/partio-download/partio-download-prefix/src/partio-download-stamp/partio-download-test.rule"
 		}
 	],
 	"target" : 

@@ -4,9 +4,9 @@ project(partio-download NONE)
 
 include(ExternalProject)
 ExternalProject_Add(partio-download
-                    GIT_REPOSITORY;https://github.com/wdas/partio.git;GIT_TAG;v1.1.0;UPDATE_DISCONNECTED;1;PATCH_COMMAND;/usr/bin/git;apply;/Users/yuhany/cs184/final_project/smokeSim/Deps/partio.patch
-                    SOURCE_DIR          "/Users/yuhany/cs184/final_project/smokeSim/build/partio-src"
-                    BINARY_DIR          "/Users/yuhany/cs184/final_project/smokeSim/build/partio-build"
+                    GIT_REPOSITORY;https://github.com/wdas/partio.git;GIT_TAG;v1.1.0;UPDATE_DISCONNECTED;1;PATCH_COMMAND;/usr/local/bin/git;apply;/Users/han/cs184-final-project/Deps/partio.patch
+                    SOURCE_DIR          "/Users/han/cs184-final-project/build/partio-src"
+                    BINARY_DIR          "/Users/han/cs184-final-project/build/partio-build"
                     CONFIGURE_COMMAND   ""
                     BUILD_COMMAND       ""
                     INSTALL_COMMAND     ""

@@ -58,19 +58,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /Users/yuhany/homebrew/Cellar/cmake/3.19.3/bin/cmake
+CMAKE_COMMAND = /usr/local/Cellar/cmake/3.19.2/bin/cmake
 
 # The command to remove a file.
-RM = /Users/yuhany/homebrew/Cellar/cmake/3.19.3/bin/cmake -E rm -f
+RM = /usr/local/Cellar/cmake/3.19.2/bin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/yuhany/cs184/final_project/smokeSim
+CMAKE_SOURCE_DIR = /Users/han/cs184-final-project
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/yuhany/cs184/final_project/smokeSim/build
+CMAKE_BINARY_DIR = /Users/han/cs184-final-project/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -78,7 +78,7 @@ CMAKE_BINARY_DIR = /Users/yuhany/cs184/final_project/smokeSim/build
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/Users/yuhany/homebrew/Cellar/cmake/3.19.3/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/usr/local/Cellar/cmake/3.19.2/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -89,7 +89,7 @@ rebuild_cache/fast: rebuild_cache
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/Users/yuhany/homebrew/Cellar/cmake/3.19.3/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/usr/local/Cellar/cmake/3.19.2/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -100,25 +100,25 @@ edit_cache/fast: edit_cache
 # Special rule for the target install/strip
 install/strip: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/Users/yuhany/homebrew/Cellar/cmake/3.19.3/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+	/usr/local/Cellar/cmake/3.19.2/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
 .PHONY : install/strip
 
 # Special rule for the target install/strip
 install/strip/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/Users/yuhany/homebrew/Cellar/cmake/3.19.3/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+	/usr/local/Cellar/cmake/3.19.2/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
 .PHONY : install/strip/fast
 
 # Special rule for the target install
 install: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/Users/yuhany/homebrew/Cellar/cmake/3.19.3/bin/cmake -P cmake_install.cmake
+	/usr/local/Cellar/cmake/3.19.2/bin/cmake -P cmake_install.cmake
 .PHONY : install
 
 # Special rule for the target install
 install/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/Users/yuhany/homebrew/Cellar/cmake/3.19.3/bin/cmake -P cmake_install.cmake
+	/usr/local/Cellar/cmake/3.19.2/bin/cmake -P cmake_install.cmake
 .PHONY : install/fast
 
 # Special rule for the target list_install_components
@@ -134,25 +134,25 @@ list_install_components/fast: list_install_components
 # Special rule for the target install/local
 install/local: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/Users/yuhany/homebrew/Cellar/cmake/3.19.3/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+	/usr/local/Cellar/cmake/3.19.2/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 .PHONY : install/local
 
 # Special rule for the target install/local
 install/local/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/Users/yuhany/homebrew/Cellar/cmake/3.19.3/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+	/usr/local/Cellar/cmake/3.19.2/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 .PHONY : install/local/fast
 
 # The main all target
 all: cmake_check_build_system
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(CMAKE_COMMAND) -E cmake_progress_start /Users/yuhany/cs184/final_project/smokeSim/build/CMakeFiles /Users/yuhany/cs184/final_project/smokeSim/build/src//CMakeFiles/progress.marks
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/yuhany/cs184/final_project/smokeSim/build/CMakeFiles 0
+	cd /Users/han/cs184-final-project/build && $(CMAKE_COMMAND) -E cmake_progress_start /Users/han/cs184-final-project/build/CMakeFiles /Users/han/cs184-final-project/build/src//CMakeFiles/progress.marks
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/han/cs184-final-project/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/clean
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/clean
 .PHONY : clean
 
 # The main clean target
@@ -162,22 +162,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/preinstall
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/preinstall
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /Users/han/cs184-final-project/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 src/CMakeFiles/SIM.dir/rule:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/SIM.dir/rule
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/SIM.dir/rule
 .PHONY : src/CMakeFiles/SIM.dir/rule
 
 # Convenience name for target.
@@ -187,7 +187,7 @@ SIM: src/CMakeFiles/SIM.dir/rule
 
 # fast build rule for target.
 SIM/fast:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/build
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/build
 .PHONY : SIM/fast
 
 camera.o: camera.cpp.o
@@ -196,7 +196,7 @@ camera.o: camera.cpp.o
 
 # target to build an object file
 camera.cpp.o:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/camera.cpp.o
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/camera.cpp.o
 .PHONY : camera.cpp.o
 
 camera.i: camera.cpp.i
@@ -205,7 +205,7 @@ camera.i: camera.cpp.i
 
 # target to preprocess a source file
 camera.cpp.i:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/camera.cpp.i
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/camera.cpp.i
 .PHONY : camera.cpp.i
 
 camera.s: camera.cpp.s
@@ -214,7 +214,7 @@ camera.s: camera.cpp.s
 
 # target to generate assembly for a file
 camera.cpp.s:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/camera.cpp.s
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/camera.cpp.s
 .PHONY : camera.cpp.s
 
 grid_data.o: grid_data.cpp.o
@@ -223,7 +223,7 @@ grid_data.o: grid_data.cpp.o
 
 # target to build an object file
 grid_data.cpp.o:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/grid_data.cpp.o
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/grid_data.cpp.o
 .PHONY : grid_data.cpp.o
 
 grid_data.i: grid_data.cpp.i
@@ -232,7 +232,7 @@ grid_data.i: grid_data.cpp.i
 
 # target to preprocess a source file
 grid_data.cpp.i:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/grid_data.cpp.i
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/grid_data.cpp.i
 .PHONY : grid_data.cpp.i
 
 grid_data.s: grid_data.cpp.s
@@ -241,7 +241,7 @@ grid_data.s: grid_data.cpp.s
 
 # target to generate assembly for a file
 grid_data.cpp.s:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/grid_data.cpp.s
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/grid_data.cpp.s
 .PHONY : grid_data.cpp.s
 
 mac_grid.o: mac_grid.cpp.o
@@ -250,7 +250,7 @@ mac_grid.o: mac_grid.cpp.o
 
 # target to build an object file
 mac_grid.cpp.o:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/mac_grid.cpp.o
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/mac_grid.cpp.o
 .PHONY : mac_grid.cpp.o
 
 mac_grid.i: mac_grid.cpp.i
@@ -259,7 +259,7 @@ mac_grid.i: mac_grid.cpp.i
 
 # target to preprocess a source file
 mac_grid.cpp.i:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/mac_grid.cpp.i
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/mac_grid.cpp.i
 .PHONY : mac_grid.cpp.i
 
 mac_grid.s: mac_grid.cpp.s
@@ -268,7 +268,7 @@ mac_grid.s: mac_grid.cpp.s
 
 # target to generate assembly for a file
 mac_grid.cpp.s:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/mac_grid.cpp.s
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/mac_grid.cpp.s
 .PHONY : mac_grid.cpp.s
 
 main.o: main.cpp.o
@@ -277,7 +277,7 @@ main.o: main.cpp.o
 
 # target to build an object file
 main.cpp.o:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/main.cpp.o
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/main.cpp.o
 .PHONY : main.cpp.o
 
 main.i: main.cpp.i
@@ -286,7 +286,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/main.cpp.i
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -295,7 +295,7 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/main.cpp.s
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/main.cpp.s
 .PHONY : main.cpp.s
 
 simulator.o: simulator.cpp.o
@@ -304,7 +304,7 @@ simulator.o: simulator.cpp.o
 
 # target to build an object file
 simulator.cpp.o:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/simulator.cpp.o
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/simulator.cpp.o
 .PHONY : simulator.cpp.o
 
 simulator.i: simulator.cpp.i
@@ -313,7 +313,7 @@ simulator.i: simulator.cpp.i
 
 # target to preprocess a source file
 simulator.cpp.i:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/simulator.cpp.i
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/simulator.cpp.i
 .PHONY : simulator.cpp.i
 
 simulator.s: simulator.cpp.s
@@ -322,7 +322,7 @@ simulator.s: simulator.cpp.s
 
 # target to generate assembly for a file
 simulator.cpp.s:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/simulator.cpp.s
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/simulator.cpp.s
 .PHONY : simulator.cpp.s
 
 smoke_sim.o: smoke_sim.cpp.o
@@ -331,7 +331,7 @@ smoke_sim.o: smoke_sim.cpp.o
 
 # target to build an object file
 smoke_sim.cpp.o:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/smoke_sim.cpp.o
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/smoke_sim.cpp.o
 .PHONY : smoke_sim.cpp.o
 
 smoke_sim.i: smoke_sim.cpp.i
@@ -340,7 +340,7 @@ smoke_sim.i: smoke_sim.cpp.i
 
 # target to preprocess a source file
 smoke_sim.cpp.i:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/smoke_sim.cpp.i
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/smoke_sim.cpp.i
 .PHONY : smoke_sim.cpp.i
 
 smoke_sim.s: smoke_sim.cpp.s
@@ -349,7 +349,7 @@ smoke_sim.s: smoke_sim.cpp.s
 
 # target to generate assembly for a file
 smoke_sim.cpp.s:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/smoke_sim.cpp.s
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/smoke_sim.cpp.s
 .PHONY : smoke_sim.cpp.s
 
 util/basic_math.o: util/basic_math.cpp.o
@@ -358,7 +358,7 @@ util/basic_math.o: util/basic_math.cpp.o
 
 # target to build an object file
 util/basic_math.cpp.o:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/util/basic_math.cpp.o
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/util/basic_math.cpp.o
 .PHONY : util/basic_math.cpp.o
 
 util/basic_math.i: util/basic_math.cpp.i
@@ -367,7 +367,7 @@ util/basic_math.i: util/basic_math.cpp.i
 
 # target to preprocess a source file
 util/basic_math.cpp.i:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/util/basic_math.cpp.i
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/util/basic_math.cpp.i
 .PHONY : util/basic_math.cpp.i
 
 util/basic_math.s: util/basic_math.cpp.s
@@ -376,7 +376,7 @@ util/basic_math.s: util/basic_math.cpp.s
 
 # target to generate assembly for a file
 util/basic_math.cpp.s:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/util/basic_math.cpp.s
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/util/basic_math.cpp.s
 .PHONY : util/basic_math.cpp.s
 
 util/constants.o: util/constants.cpp.o
@@ -385,7 +385,7 @@ util/constants.o: util/constants.cpp.o
 
 # target to build an object file
 util/constants.cpp.o:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/util/constants.cpp.o
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/util/constants.cpp.o
 .PHONY : util/constants.cpp.o
 
 util/constants.i: util/constants.cpp.i
@@ -394,7 +394,7 @@ util/constants.i: util/constants.cpp.i
 
 # target to preprocess a source file
 util/constants.cpp.i:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/util/constants.cpp.i
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/util/constants.cpp.i
 .PHONY : util/constants.cpp.i
 
 util/constants.s: util/constants.cpp.s
@@ -403,7 +403,7 @@ util/constants.s: util/constants.cpp.s
 
 # target to generate assembly for a file
 util/constants.cpp.s:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/util/constants.cpp.s
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/util/constants.cpp.s
 .PHONY : util/constants.cpp.s
 
 util/fps.o: util/fps.cpp.o
@@ -412,7 +412,7 @@ util/fps.o: util/fps.cpp.o
 
 # target to build an object file
 util/fps.cpp.o:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/util/fps.cpp.o
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/util/fps.cpp.o
 .PHONY : util/fps.cpp.o
 
 util/fps.i: util/fps.cpp.i
@@ -421,7 +421,7 @@ util/fps.i: util/fps.cpp.i
 
 # target to preprocess a source file
 util/fps.cpp.i:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/util/fps.cpp.i
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/util/fps.cpp.i
 .PHONY : util/fps.cpp.i
 
 util/fps.s: util/fps.cpp.s
@@ -430,7 +430,7 @@ util/fps.s: util/fps.cpp.s
 
 # target to generate assembly for a file
 util/fps.cpp.s:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/util/fps.cpp.s
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/util/fps.cpp.s
 .PHONY : util/fps.cpp.s
 
 util/vec.o: util/vec.cpp.o
@@ -439,7 +439,7 @@ util/vec.o: util/vec.cpp.o
 
 # target to build an object file
 util/vec.cpp.o:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/util/vec.cpp.o
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/util/vec.cpp.o
 .PHONY : util/vec.cpp.o
 
 util/vec.i: util/vec.cpp.i
@@ -448,7 +448,7 @@ util/vec.i: util/vec.cpp.i
 
 # target to preprocess a source file
 util/vec.cpp.i:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/util/vec.cpp.i
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/util/vec.cpp.i
 .PHONY : util/vec.cpp.i
 
 util/vec.s: util/vec.cpp.s
@@ -457,7 +457,7 @@ util/vec.s: util/vec.cpp.s
 
 # target to generate assembly for a file
 util/vec.cpp.s:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/util/vec.cpp.s
+	cd /Users/han/cs184-final-project/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SIM.dir/build.make src/CMakeFiles/SIM.dir/util/vec.cpp.s
 .PHONY : util/vec.cpp.s
 
 # Help Target
@@ -514,6 +514,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /Users/yuhany/cs184/final_project/smokeSim/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /Users/han/cs184-final-project/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 
