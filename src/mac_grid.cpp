@@ -63,8 +63,7 @@ void MACGrid::initialize()
 vec3 MACGrid::getVelocity(const vec3& pt)
 {
    vec3 vel;
-    int r=3;
-    vec3 centr(sphereC[0]+1.0,sphereC[1],sphereC[2]+1.0);
+    vec3 centr(sphereC[0],sphereC[1],sphereC[2]);
     centr*=theCellSize;
     double radius=Distance(centr,pt);
     if(allowsphere == 0)
@@ -471,7 +470,7 @@ void MACGrid::drawZSheets(bool backToFront)
             if (allowsphere == 1) {
   					 // --------sphere--------
 
-  					 int centerX = sphereC[0], centerY = sphereC[1], radius = rr2;
+  					 int centerX = sphereC[0]*theCellSize, centerY = sphereC[1]*theCellSize, radius = rr2;
   					 double distSphere = std::sqrt((i-centerX)*(i-centerX)+(j-centerY)*(j-centerY));
   					 if (distSphere<=radius){
   						 color1 = vec4 (1,1,1, 1-distSphere/radius/2);
@@ -504,7 +503,7 @@ void MACGrid::drawZSheets(bool backToFront)
             vec4 color1, color2;
 					 if (allowsphere == 1) {
   					 // --------sphere--------
-    					 int centerX = sphereC[0], centerY = sphereC[1], radius = rr2;
+    					 int centerX = sphereC[0]*theCellSize, centerY = sphereC[1]*theCellSize, radius = rr2;
     					 double distSphere = std::sqrt((i-centerX)*(i-centerX)+(j-centerY)*(j-centerY));
     					 if (distSphere<=radius){
     						 color1 = vec4 (1,1,1, 1-distSphere/radius/2);

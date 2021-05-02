@@ -27,9 +27,11 @@ void SmokeSim::updateSources(MACGrid &mGrid){
 	std::vector<std::vector<int>> mysource;
 	for (int i=sourcePosX-radius;i<=sourcePosX+radius;i++){
 		for (int j=sourcePosY-radius;j<=sourcePosY+radius;j++){
-			if (i>=0 and i<theDim[0] and j>=0 and j<theDim[1])
+			if (i>=0 and i<theDim[0] and j>=0 and j<theDim[1]){
 				mysource.push_back({i,j});
                 mGrid.rendering_particles.push_back({1.0*i,1.0*j,0.0});
+            }
+                //cout<<i<<endl;
 		}
 	}
 	
@@ -700,7 +702,7 @@ void SmokeSim::advectRenderingParticles(MACGrid &mGrid, double dt)
 	for (size_t p = 0; p < mGrid.rendering_particles.size(); p++) {
 
 		vec3 currentPosition = mGrid.rendering_particles[p];
-        cout<<currentPosition<<endl;
+        //cout<<currentPosition<<endl;
         vec3 currentVelocity = mGrid.getVelocity(currentPosition);
         vec3 nextPosition = currentPosition + currentVelocity * dt;
         vec3 clippedNextPosition = mGrid.clipToGrid(nextPosition, currentPosition);
@@ -717,8 +719,9 @@ void SmokeSim::advectRenderingParticles(MACGrid &mGrid, double dt)
             centr *= theCellSize;
             double radius = Distance(centr, clippedBetterNextPosition);
             //double radius = std::sqrt(centr[0]-clippedBetterNextPosition[0])*(centr[0]-clippedBetterNextPosition[0])+(centr[1]-clippedBetterNextPosition[1])*(centr[1]-clippedBetterNextPosition[1]);
-            cout<<clippedBetterNextPosition<<endl;
-            cout<<centr<<endl;
+            //cout<<clippedBetterNextPosition<<endl;
+            //cout<<centr<<endl;
+            //cout<<radius<<endl;
             if (radius <= r and ball == 0) {
                 cout<<"turn"<<endl;
                 vec3 pos2c = clippedBetterNextPosition - centr;

@@ -43,6 +43,7 @@ void onMouseMotionCb(int x, int y)
 {
 	if (theSmokeSim.userInput == 0){ //source
 		theSmokeSim.sourcePosX = int(-theDim[0]*1.0/windowSize*x+theDim[0]);
+		cout<<theSmokeSim.sourcePosX<<endl;
 		theSmokeSim.sourcePosY = int(-theDim[1]*1.0/windowSize*y+theDim[1]);
 	}else if (theSmokeSim.userInput == 1){//force
 		theSmokeSim.forceX = 300*(x - lastX);
