@@ -79,9 +79,6 @@ void onKeyboardCb(unsigned char key, int x, int y)
 {
 	if (key == ' ') theCamera.reset();
 	else if (key == 'v') MACGrid::theDisplayVel = !MACGrid::theDisplayVel;
-	else if (key == 'r') {
-	 theSmokeSim.setRecording(!theSmokeSim.isRecording(), savedWidth, savedHeight);
-	}
 	else if (key == '>') isRunning = true;
 	else if (key == '=') isRunning = false;
 	else if (key == '<') theSmokeSim.reset();
@@ -104,9 +101,7 @@ void onKeyboardCb(unsigned char key, int x, int y)
 	else if (key == 'r')
 		//make the sphere reflective
 		theSmokeSim.ball = 0;
-	else if (key == 'p')
-		//make the sphere reflective
-		theSmokeSim.enableball = 1;
+
 	glutPostRedisplay();
 }
 

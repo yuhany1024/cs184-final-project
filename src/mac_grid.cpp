@@ -3,7 +3,7 @@
 
 #undef max
 #undef min 
-#define enableSphere true
+
 #define theRenderMode CUBES
 
 bool MACGrid::theDisplayVel = false;//true
@@ -67,7 +67,7 @@ vec3 MACGrid::getVelocity(const vec3& pt)
     vec3 centr(sphereC[0]+1.0,sphereC[1],sphereC[2]+1.0);
     centr*=theCellSize;
     double radius=Distance(centr,pt);
-    if(!enableSphere)
+    if(allowsphere == 0)
     {
         vel[0] = getVelocityX(pt);
         vel[1] = getVelocityY(pt);
@@ -86,7 +86,7 @@ vec3 MACGrid::getVelocity(const vec3& pt)
             vec3 pro = Dot(curvel, (pt - centr)) * (pt - centr).Normalize();
             return (curvel - pro);
             //return -curvel;
-        }
+        } 
 
     }
 }
@@ -468,7 +468,7 @@ void MACGrid::drawZSheets(bool backToFront)
             vec3 pos1 = vec3(i,j,k); 
             vec3 pos2 = vec3(i, j+stepsize, k);
              vec4 color1, color2;
-            if (enableSphere) {
+            if (allowsphere == 1) {
   					 // --------sphere--------
 
   					 int centerX = sphereC[0], centerY = sphereC[1], radius = rr2;
@@ -502,7 +502,7 @@ void MACGrid::drawZSheets(bool backToFront)
             vec3 pos1 = vec3(i,j,k); 
             vec3 pos2 = vec3(i, j+stepsize, k); 
             vec4 color1, color2;
-					 if (enableSphere) {
+					 if (allowsphere == 1) {
   					 // --------sphere--------
     					 int centerX = sphereC[0], centerY = sphereC[1], radius = rr2;
     					 double distSphere = std::sqrt((i-centerX)*(i-centerX)+(j-centerY)*(j-centerY));
@@ -560,7 +560,7 @@ void MACGrid::drawXSheets(bool backToFront)
             vec3 pos2 = vec3(i, j+stepsize, k); 
 					 vec4 color1, color2;
 					 // --------sphere--------
-           if (enableSphere) {
+           if (allowsphere == 1) {
   					int centerX = sphereC[0], centerY = sphereC[1], radius = rr2;
   					double distSphere = std::sqrt((i-centerX)*(i-centerX)+(j-centerY)*(j-centerY));
   					if (distSphere<=radius){

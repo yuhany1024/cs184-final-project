@@ -15,7 +15,6 @@ public:
 		int forceX = 100; int forceY = 100;
         int mode = 1;
         int ball = 0;
-        int enableball = 0;
 	int scene = 0;
 	
 	

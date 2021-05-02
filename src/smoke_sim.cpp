@@ -1,6 +1,5 @@
 #include "smoke_sim.h"
-#include <time.h>
-#define  enableSphere true
+
 // MACGrid target;
 MACGrid target;
 
@@ -699,7 +698,9 @@ void SmokeSim::advectRenderingParticles(MACGrid &mGrid, double dt)
 	mGrid.rendering_particles_vel.resize(mGrid.rendering_particles.size());
     //cout<<mGrid.rendering_particles.size()<<endl;
 	for (size_t p = 0; p < mGrid.rendering_particles.size(); p++) {
+
 		vec3 currentPosition = mGrid.rendering_particles[p];
+        cout<<currentPosition<<endl;
         vec3 currentVelocity = mGrid.getVelocity(currentPosition);
         vec3 nextPosition = currentPosition + currentVelocity * dt;
         vec3 clippedNextPosition = mGrid.clipToGrid(nextPosition, currentPosition);
@@ -708,24 +709,26 @@ void SmokeSim::advectRenderingParticles(MACGrid &mGrid, double dt)
         vec3 averageVelocity = (currentVelocity + nextVelocity) / 2.0;
         vec3 betterNextPosition = currentPosition + averageVelocity * dt;
         vec3 clippedBetterNextPosition = mGrid.clipToGrid(betterNextPosition, currentPosition);
-        if(enableSphere)
+        if(mGrid.allowsphere == 1)
         {
             vec3 vel;
-            vec3 centr(mGrid.sphereC[0]+1.0,mGrid.sphereC[1],mGrid.sphereC[2]+1.0);
+            vec3 centr(mGrid.sphereC[0],mGrid.sphereC[1],0);
             double r = mGrid.rr2;
             centr *= theCellSize;
             double radius = Distance(centr, clippedBetterNextPosition);
-            //cout<<radius<<endl;
-            if (radius < r) {
-                //cout<<"turn"<<endl;
+            //double radius = std::sqrt(centr[0]-clippedBetterNextPosition[0])*(centr[0]-clippedBetterNextPosition[0])+(centr[1]-clippedBetterNextPosition[1])*(centr[1]-clippedBetterNextPosition[1]);
+            cout<<clippedBetterNextPosition<<endl;
+            cout<<centr<<endl;
+            if (radius <= r and ball == 0) {
+                cout<<"turn"<<endl;
                 vec3 pos2c = clippedBetterNextPosition - centr;
                 pos2c = r * pos2c / radius;
                 clippedBetterNextPosition = pos2c + centr;
                 mGrid.rendering_particles[p] = clippedBetterNextPosition;
                 mGrid.rendering_particles_vel[p] = averageVelocity;
-                mGrid.rendering_particles[p] = clippedBetterNextPosition;
-                mGrid.rendering_particles_vel[p] = averageVelocity;
 
+            } else if (radius <= r and ball == 1) {
+                int tttt = 0;
             } else {
                 mGrid.rendering_particles[p] = clippedBetterNextPosition;
                 mGrid.rendering_particles_vel[p] = averageVelocity;
