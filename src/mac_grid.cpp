@@ -3,10 +3,11 @@
 
 #undef max
 #undef min 
-#define enableSphere false
+#define enableSphere true
 #define theRenderMode CUBES
 
 bool MACGrid::theDisplayVel = false;//true
+
 
 MACGrid::MACGrid()
 {
@@ -75,12 +76,12 @@ vec3 MACGrid::getVelocity(const vec3& pt)
     }
     else
     {
-        if (radius > 10*theCellSize) {
+        if (radius > rr2) {
             vel[0] = getVelocityX(pt);
             vel[1] = getVelocityY(pt);
             vel[2] = getVelocityZ(pt);
             return vel;
-        } else if (radius <= 10*theCellSize) {
+        } else if (radius <= rr2) {
             vec3 curvel(mU.interpolate(pt), mV.interpolate(pt), mW.interpolate(pt));
             vec3 pro = Dot(curvel, (pt - centr)) * (pt - centr).Normalize();
             return (curvel - pro);
@@ -437,6 +438,8 @@ vec4 MACGrid::getRenderColor(const vec3& pt)
 
 void MACGrid::drawZSheets(bool backToFront)
 {
+
+    //used in this project
    // Draw K Sheets from back to front
    double back =  (theDim[2])*theCellSize;
    double top  =  (theDim[1])*theCellSize;
@@ -468,7 +471,7 @@ void MACGrid::drawZSheets(bool backToFront)
             if (enableSphere) {
   					 // --------sphere--------
 
-  					 int centerX = 11, centerY = 11, radius = 10*theCellSize;
+  					 int centerX = sphereC[0], centerY = sphereC[1], radius = rr2;
   					 double distSphere = std::sqrt((i-centerX)*(i-centerX)+(j-centerY)*(j-centerY));
   					 if (distSphere<=radius){
   						 color1 = vec4 (1,1,1, 1-distSphere/radius/2);
@@ -478,9 +481,10 @@ void MACGrid::drawZSheets(bool backToFront)
   						 color2 = getRenderColor(pos2);
   					 }
 					   //---------------------
-            }
-            color1 = getRenderColor(pos1);
-            color2 = getRenderColor(pos2);					 
+            } else {
+              color1 = getRenderColor(pos1);
+              color2 = getRenderColor(pos2);			
+            }		 
 
 
             glColor4dv(color1.n);
@@ -500,19 +504,20 @@ void MACGrid::drawZSheets(bool backToFront)
             vec4 color1, color2;
 					 if (enableSphere) {
   					 // --------sphere--------
-  					 int centerX = 11, centerY = 11, radius = 10*theCellSize;
-  					 double distSphere = std::sqrt((i-centerX)*(i-centerX)+(j-centerY)*(j-centerY));
-  					 if (distSphere<=radius){
-  						 color1 = vec4 (1,1,1, 1-distSphere/radius/2);
-  						 color2 = vec4 (1,1,1, 1-distSphere/radius/2);
-  					 }else{
-  						 color1 = getRenderColor(pos1);
-  						 color2 = getRenderColor(pos2);
-  					 }
+    					 int centerX = sphereC[0], centerY = sphereC[1], radius = rr2;
+    					 double distSphere = std::sqrt((i-centerX)*(i-centerX)+(j-centerY)*(j-centerY));
+    					 if (distSphere<=radius){
+    						 color1 = vec4 (1,1,1, 1-distSphere/radius/2);
+    						 color2 = vec4 (1,1,1, 1-distSphere/radius/2);
+    					 }else{
+    						 color1 = getRenderColor(pos1);
+    						 color2 = getRenderColor(pos2);
+    					 }
   					 //---------------------
+            } else {
+              color1 = getRenderColor(pos1);
+              color2 = getRenderColor(pos2);
             }
-            color1 = getRenderColor(pos1);
-            color2 = getRenderColor(pos2);
             glColor4dv(color1.n);
             glVertex3dv(pos1.n);
             glColor4dv(color2.n);
@@ -556,7 +561,7 @@ void MACGrid::drawXSheets(bool backToFront)
 					 vec4 color1, color2;
 					 // --------sphere--------
            if (enableSphere) {
-  					int centerX = 11, centerY = 11, radius = 3*theCellSize;
+  					int centerX = sphereC[0], centerY = sphereC[1], radius = rr2;
   					double distSphere = std::sqrt((i-centerX)*(i-centerX)+(j-centerY)*(j-centerY));
   					if (distSphere<=radius){
   						std::cout << "x" << endl;
@@ -567,9 +572,11 @@ void MACGrid::drawXSheets(bool backToFront)
   						color2 = getRenderColor(pos2);
   					}
   					//---------------------
+          } else {
+              color1 = getRenderColor(pos1);
+              color2 = getRenderColor(pos2);
           }
-            color1 = getRenderColor(pos1);
-            color2 = getRenderColor(pos2);
+
             glColor4dv(color1.n);
             glVertex3dv(pos1.n);
 

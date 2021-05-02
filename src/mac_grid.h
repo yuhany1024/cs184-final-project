@@ -125,7 +125,8 @@ public:
 	GridData mP;  // Pressure, stored at grid centers, size is dimX*dimY*dimZ
 	GridData mD;  // Density, stored at grid centers, size is dimX*dimY*dimZ
 	GridData mT;  // Temperature, stored at grid centers, size is dimX*dimY*dimZ
-	vec3 sphereC=vec3(11,11,0);
+	vec3 sphereC=vec3(3,3,0);
+	double rr2 = 2*theCellSize;
 
 	// FLIP - Save a copy of the velocities for FLIP solve
 	GridDataX mUcopy; 
