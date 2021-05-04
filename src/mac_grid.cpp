@@ -473,8 +473,17 @@ void MACGrid::drawZSheets(bool backToFront)
   					 int centerX = sphereC[0]*theCellSize, centerY = sphereC[1]*theCellSize, radius = rr2;
   					 double distSphere = std::sqrt((i-centerX)*(i-centerX)+(j-centerY)*(j-centerY));
   					 if (distSphere<=radius){
-  						 color1 = vec4 (1,1,1, 1-distSphere/radius/2);
-  						 color2 = vec4 (1,1,1, 1-distSphere/radius/2);
+                 //reflect color
+                 color1 = vec4 (1,1,1, 1-distSphere/radius/2);
+                 color2 = vec4 (1,1,1, 1-distSphere/radius/2);
+                 //absorb color
+                 //color1 = vec4 (1,0,1, 1-distSphere/radius/2);
+                 //color2 = vec4 (1,0,1, 1-distSphere/radius/2);
+                 //attract color
+                 //color1 = vec4 (0.9,0.6,0.2, 1-distSphere/radius/2);
+                 //color2 = vec4 (0.9,0.6,0.2, 1-distSphere/radius/2);
+
+
   					 }else{
   						 color1 = getRenderColor(pos1);
   						 color2 = getRenderColor(pos2);
@@ -506,8 +515,15 @@ void MACGrid::drawZSheets(bool backToFront)
     					 int centerX = sphereC[0]*theCellSize, centerY = sphereC[1]*theCellSize, radius = rr2;
     					 double distSphere = std::sqrt((i-centerX)*(i-centerX)+(j-centerY)*(j-centerY));
     					 if (distSphere<=radius){
-    						 color1 = vec4 (1,1,1, 1-distSphere/radius/2);
-    						 color2 = vec4 (1,1,1, 1-distSphere/radius/2);
+                 //reflect color
+                 color1 = vec4 (1,1,1, 1-distSphere/radius/2);
+                 color2 = vec4 (1,1,1, 1-distSphere/radius/2);
+                 //absorb color
+                 //color1 = vec4 (1,0,1, 1-distSphere/radius/2);
+                 //color2 = vec4 (1,0,1, 1-distSphere/radius/2);
+                 //attract color
+                 //color1 = vec4 (0.9,0.6,0.2, 1-distSphere/radius/2);
+                 //color2 = vec4 (0.9,0.6,0.2, 1-distSphere/radius/2);
     					 }else{
     						 color1 = getRenderColor(pos1);
     						 color2 = getRenderColor(pos2);
@@ -564,8 +580,12 @@ void MACGrid::drawXSheets(bool backToFront)
   					double distSphere = std::sqrt((i-centerX)*(i-centerX)+(j-centerY)*(j-centerY));
   					if (distSphere<=radius){
   						std::cout << "x" << endl;
+              //reflect color
   						color1 = vec4 (1,1,1, 1);
   						color2 = vec4 (1,1,1, 1);
+
+              //absorb color
+
   					}else{
   						color1 = getRenderColor(pos1);
   						color2 = getRenderColor(pos2);

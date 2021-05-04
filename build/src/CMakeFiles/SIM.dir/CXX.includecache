@@ -40,6 +40,10 @@ util/constants.h
 grid_data.h
 /Users/han/cs184-final-project/src/grid_data.h
 
+/Users/han/cs184-final-project/src/mac_grid.cpp
+mac_grid.h
+/Users/han/cs184-final-project/src/mac_grid.h
+
 /Users/han/cs184-final-project/src/mac_grid.h
 math.h
 -
