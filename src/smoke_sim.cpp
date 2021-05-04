@@ -1,5 +1,5 @@
 #include "smoke_sim.h"
-
+bool attractingball = false;
 // MACGrid target;
 MACGrid target;
 
@@ -159,6 +159,23 @@ void SmokeSim::userForce(MACGrid &mGrid){
 	forcePosX = -100; forcePosY = -100;
 }
 
+void SmokeSim::ballForce(MACGrid &mGrid){
+    //To use: 1. change ball in smoke_sim.cpp to be 1  2. change attractingball to be true
+    FOR_EACH_FACE {
+        if (mGrid.isValidFace(MACGrid::Y, i, j, k)) {
+            vec3 currPos = mGrid.getFacePosition(MACGrid::Y, i, j, k);
+            currPos[2] = 0;
+            vec3 centr(mGrid.sphereC[0],mGrid.sphereC[1],0);
+            double r = mGrid.rr2;
+            centr *= theCellSize;
+            vec3 dd = centr-currPos;
+            vec3 ff = -10*dd.Normalize();
+            mGrid.mU(i, j, k) += ff[0];
+            mGrid.mV(i, j, k) += ff[1];
+        }
+    }
+}
+
 /*
  * This function prevents the vortices from disappearing too quickly.
  * w = cross(gradient, u) [curl]
@@ -261,6 +278,9 @@ void SmokeSim::addExternalForces(MACGrid &mGrid, double dt)
 	computeBouyancy(mGrid, dt);
 	computeVorticityConfinement(mGrid, dt);
 	userForce(mGrid);
+    if (attractingball == true) {
+        ballForce(mGrid);
+    }
 }
 
 void SmokeSim::computeDivergence(MACGrid &mGrid, GridData &d)
@@ -730,7 +750,7 @@ void SmokeSim::advectRenderingParticles(MACGrid &mGrid, double dt)
                 mGrid.rendering_particles[p] = clippedBetterNextPosition;
                 mGrid.rendering_particles_vel[p] = averageVelocity;
 
-            } else if (radius <= r and ball == 1) {
+            } else if (radius < r and ball == 1) {
                 int tttt = 0;
             } else {
                 mGrid.rendering_particles[p] = clippedBetterNextPosition;

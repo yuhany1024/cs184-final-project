@@ -15,6 +15,7 @@ public:
 		int forceX = 100; int forceY = 100;
         int mode = 1;
         int ball = 0;
+        //when ball=0, it's reflective; when ball=1, it absorptive
 	int scene = 0;
 	
 	
@@ -41,6 +42,7 @@ public:
     void advectDensity(MACGrid &mGrid, double dt);    
     void advectRenderingParticles(MACGrid &mGrid, double dt);
 	void userForce(MACGrid &mGrid);
+    void ballForce(MACGrid &mGrid);
 };
 
 #endif

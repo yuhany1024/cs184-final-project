@@ -40,10 +40,6 @@ util/constants.h
 grid_data.h
 /Users/han/cs184-final-project/src/grid_data.h
 
-/Users/han/cs184-final-project/src/mac_grid.cpp
-mac_grid.h
-/Users/han/cs184-final-project/src/mac_grid.h
-
 /Users/han/cs184-final-project/src/mac_grid.h
 math.h
 -
@@ -80,6 +76,28 @@ Eigen/IterativeLinearSolvers
 Eigen/Sparse
 -
 Eigen/Cholesky
+-
+
+/Users/han/cs184-final-project/src/main.cpp
+simulator.h
+/Users/han/cs184-final-project/src/simulator.h
+smoke_sim.h
+/Users/han/cs184-final-project/src/smoke_sim.h
+camera.h
+/Users/han/cs184-final-project/src/camera.h
+util/fps.h
+/Users/han/cs184-final-project/src/util/fps.h
+util/constants.h
+/Users/han/cs184-final-project/src/util/constants.h
+stdio.h
+-
+cmath
+-
+util/open_gl_headers.h
+/Users/han/cs184-final-project/src/util/open_gl_headers.h
+util/basic_math.h
+/Users/han/cs184-final-project/src/util/basic_math.h
+string.h
 -
 
 /Users/han/cs184-final-project/src/particle.h
@@ -128,6 +146,12 @@ iostream
 iostream
 -
 sstream
+-
+
+/Users/han/cs184-final-project/src/util/fps.h
+vector
+-
+string.h
 -
 
 /Users/han/cs184-final-project/src/util/matrix.h

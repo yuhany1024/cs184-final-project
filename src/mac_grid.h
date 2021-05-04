@@ -125,7 +125,7 @@ public:
 	GridData mP;  // Pressure, stored at grid centers, size is dimX*dimY*dimZ
 	GridData mD;  // Density, stored at grid centers, size is dimX*dimY*dimZ
 	GridData mT;  // Temperature, stored at grid centers, size is dimX*dimY*dimZ
-	vec3 sphereC=vec3(6,6,0);
+	vec3 sphereC=vec3(9,9,0);
 	double rr2 = 4*theCellSize;
 	int allowsphere = 1;
 	//when =1, sphere appears
