@@ -1,0 +1,6 @@
+build
+cmake-build-debug
+records
+.vscode
+.DS_Store
+SIM
