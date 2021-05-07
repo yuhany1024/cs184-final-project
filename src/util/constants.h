@@ -21,6 +21,10 @@ extern const double theGravity;
       for(int j = 0; j < theDim[MACGrid::Y]; ++j) \
          for(int i = 0; i < theDim[MACGrid::X]; ++i) 
 
+#define FOR_EACH_CELL_NO_K \
+   for(int j = 0; j < theDim[MACGrid::Y]; ++j) \
+      for(int i = 0; i < theDim[MACGrid::X]; ++i) 
+
 #define FOR_EACH_CELL_REVERSE \
    for(int k = theDim[MACGrid::Z] - 1; k >= 0; --k)  \
       for(int j = theDim[MACGrid::Y] - 1; j >= 0; --j) \
