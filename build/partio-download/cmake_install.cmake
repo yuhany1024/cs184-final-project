@@ -1,8 +1,8 @@
-# Install script for directory: /Users/han/cs184-final-project/build/partio-download
+# Install script for directory: /Users/yuhany/cs184/final_project/cs184-final-project/build/partio-download
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/usr/local")
+  set(CMAKE_INSTALL_PREFIX "/Users/yuhany/homebrew")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/han/cs184-final-project/build/partio-download/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/yuhany/cs184/final_project/cs184-final-project/build/partio-download/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
