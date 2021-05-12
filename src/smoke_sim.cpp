@@ -472,7 +472,6 @@ void SmokeSim::applyPreconditioner(MACGrid &mGrid, const GridData & r, const Gri
         z = r;
         return;
     }
-
 }
 
 void SmokeSim::calculateAMatrix(MACGrid &mGrid) 
@@ -743,7 +742,6 @@ void SmokeSim::advectRenderingParticles(MACGrid &mGrid, double dt)
             //cout<<centr<<endl;
             //cout<<radius<<endl;
             if (radius <= r and ball == 0) {
-                cout<<"turn"<<endl;
                 vec3 pos2c = clippedBetterNextPosition - centr;
                 pos2c = r * pos2c / radius;
                 clippedBetterNextPosition = pos2c + centr;

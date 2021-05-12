@@ -1,3 +1,0 @@
-/Users/yuhany/cs184/final_project/cs184-final-project/build/partio-download/CMakeFiles/rebuild_cache.dir
-/Users/yuhany/cs184/final_project/cs184-final-project/build/partio-download/CMakeFiles/edit_cache.dir
-/Users/yuhany/cs184/final_project/cs184-final-project/build/partio-download/CMakeFiles/partio-download.dir

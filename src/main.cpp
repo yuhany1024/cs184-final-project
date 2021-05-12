@@ -43,13 +43,12 @@ void onMouseMotionCb(int x, int y)
 {
 	if (theSmokeSim.userInput == 0){ //source
 		theSmokeSim.sourcePosX = int(-theDim[0]*1.0/windowSize*x+theDim[0]);
-		cout<<theSmokeSim.sourcePosX<<endl;
+		// cout<<theSmokeSim.sourcePosX<<endl;
 		theSmokeSim.sourcePosY = int(-theDim[1]*1.0/windowSize*y+theDim[1]);
 	}else if (theSmokeSim.userInput == 1){//force
 		theSmokeSim.forceX = 300*(x - lastX);
 		theSmokeSim.forceY = 300*(y - lastY);
 	}
-	
 	
 	lastX = x;
 	lastY = y;
@@ -112,7 +111,7 @@ void onMenuCb(int value)
     {
     case -1: exit(0);
     case -6:
-				theSmokeSim.reset();
+		theSmokeSim.reset();
         break;
     default: onKeyboardCb(value, 0, 0); break;
     }
@@ -128,31 +127,30 @@ void onTimerCb(int value)
 }
 
 void onResizeCb(int width, int height)
-{
+{	
+    // Save the width and height:
+    savedWidth = width;
+    savedHeight = height;
 	
-	// Save the width and height:
-	savedWidth = width;
-	savedHeight = height;
-	
-   // Update viewport
-   glViewport(0, 0, width, height);
+    // Update viewport
+    glViewport(0, 0, width, height);
 
-   // Update camera projection's aspect ratio
-   float vfov, aspect, zNear, zFar;
-   theCamera.getProjection(&vfov, &aspect, &zNear, &zFar);
-   theCamera.setProjection(vfov, ((GLfloat) width)/height, zNear, zFar);
+    // Update camera projection's aspect ratio
+    float vfov, aspect, zNear, zFar;
+    theCamera.getProjection(&vfov, &aspect, &zNear, &zFar);
+    theCamera.setProjection(vfov, ((GLfloat) width)/height, zNear, zFar);
 }
 
 void DrawSphere()
 {
-		float xRotated = 90.0, yRotated = 0.0, zRotated = 0.0;
-		glColor3f (0.8, 0.2, 0.1);              // Red ball displaced to left.
-		glPushMatrix ();
-			 //glTranslatef  (-1.5, 0.0, 0.0);
-			 //glRotatef       (60.0, 1,0,0);
-			 //glRotatef       (zRotated*2.0, 0,0,1);   // Red ball rotates at twice the rate of blue ball.
-			 gluSphere (gluNewQuadric(), 10, 1.0,1.0);
-		glPopMatrix ();
+    float xRotated = 90.0, yRotated = 0.0, zRotated = 0.0;
+    glColor3f (0.8, 0.2, 0.1);              // Red ball displaced to left.
+    glPushMatrix ();
+    //glTranslatef  (-1.5, 0.0, 0.0);
+    //glRotatef       (60.0, 1,0,0);
+    //glRotatef       (zRotated*2.0, 0,0,1);   // Red ball rotates at twice the rate of blue ball.
+    gluSphere (gluNewQuadric(), 10, 1.0,1.0);
+    glPopMatrix ();
 }
 
 
@@ -189,8 +187,9 @@ void onDrawCb()
 	theFpsTracker.timestamp();
 
 	// Draw Scene and overlay
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	theCamera.draw();
+    glClear(GL_COLOR_BUFFER_BIT);
+
+	// theCamera.draw();
 	theSmokeSim.draw(theCamera);
 	drawOverlay();
 	glutSwapBuffers();
@@ -198,7 +197,6 @@ void onDrawCb()
 
 void init(void)
 {
-    initCamera();
     glClearColor(0.1, 0.1, 0.1, 1.0);
 
     glEnable(GL_BLEND);
@@ -214,19 +212,16 @@ void init(void)
     glCullFace(GL_BACK);
 }
 
-
-
 int main(int argc, char **argv)
 {
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowSize(windowSize, windowSize);
 	glutInitWindowPosition(500, 500);
 	
 	glutCreateWindow("Smoke Simulation");
 
 	glutDisplayFunc(onDrawCb);
-
 
 	glutKeyboardFunc(onKeyboardCb);
 	glutMouseFunc(onMouseCb);
@@ -263,7 +258,3 @@ int main(int argc, char **argv)
 	glutMainLoop();
 	return 0;
 }
-
-
-
-
