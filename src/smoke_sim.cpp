@@ -1,5 +1,5 @@
 #include "smoke_sim.h"
-
+bool attractingball = false;
 // MACGrid target;
 MACGrid target;
 
@@ -21,84 +21,53 @@ void SmokeSim::reset()
 	mTotalFrameNum = 0;
 }
 
-void SmokeSim::updateSources(MACGrid &mGrid, int scene)
-{
+void SmokeSim::updateSources(MACGrid &mGrid){
+	// Comupute source position
+	int radius = 3;//source radius
+	std::vector<std::vector<int>> mysource;
+	for (int i=sourcePosX-radius;i<=sourcePosX+radius;i++){
+		for (int j=sourcePosY-radius;j<=sourcePosY+radius;j++){
+			if (i>=0 and i<theDim[0] and j>=0 and j<theDim[1]){
+				mysource.push_back({i,j});
+                mGrid.rendering_particles.push_back({1.0*i,1.0*j,0.0});
+            }
+                //cout<<i<<endl;
+		}
+	}
+	
 	// Set initial values for density, temperature, velocity
+	for(auto & pos : mysource){
+		int i = pos[0];
+		int j = pos[1];
+		mGrid.mV(i,j+1,0) = 1.0;
+		mGrid.mD(i,j,0) = 1.0;
+		mGrid.mT(i,j,0) = 1.0;
 
-    switch(scene)
-    {
-        case 0:
-            for(int i=6; i<12;i++){
-                for(int j=0; j<5; j++){
-                    mGrid.mV(i,j+1,0) = 2.0;
-                    mGrid.mD(i,j,0) = 1.0;
-                    mGrid.mT(i,j,0) = 1.0;
+        if (mode == 1) {
+            mGrid.mT(i,j,0) = 1.0;
+            mGrid.mD(i,j,0) = 0.5;
+        } else if (mode == 2) {
+            mGrid.mT(i,j,0) = 4.0;
+            mGrid.mD(i,j,0) = 3.0;
+        } else {
+            mGrid.mT(i,j,0) = 3.0;
+        }
 
-                    mGrid.mV(i,j+2,0) = 2.0;
-                    mGrid.mD(i,j,0) = 1.0;
-                    mGrid.mT(i,j,0) = 1.0;
-                }
-            }
+	}
+	//reset the source
+	sourcePosX = -100; sourcePosY = -100;
+	
+	//scene1
+	if (scene == 1){
+		mGrid.mU(2,theDim[1]/2+10,0) = 100.0;
+		mGrid.mD(2,theDim[1]/2+10,0) = 1.0;
+		mGrid.mT(2,theDim[1]/2+10,0) = 1.0;
+		
+		mGrid.mU(theDim[0]-2,theDim[1]/2+10,0) = -100.0;
+		mGrid.mD(theDim[0]-2,theDim[1]/2+10,0) = 1.0;
+		mGrid.mT(theDim[0]-2,theDim[1]/2+10,0) = 1.0;
+	}
 
-            // Refresh particles in source.
-            for(int i=6; i<12; i++) {
-                for (int j = 0; j < 5; j++) {
-                    for (int k = 0; k <= 0; k++) {
-                        vec3 cell_center(theCellSize*(i+0.5), theCellSize*(j+0.5), theCellSize*(k+0.5));
-                        for(int p=0; p<10; p++) {
-                            double a = ((float) rand() / RAND_MAX - 0.5) * theCellSize;
-                            double b = ((float) rand() / RAND_MAX - 0.5) * theCellSize;
-                            double c = ((float) rand() / RAND_MAX - 0.5) * theCellSize;
-                            vec3 shift(a, b, c);
-                            vec3 xp = cell_center + shift;
-                            mGrid.rendering_particles.push_back(xp);
-                        }
-                    }
-                }
-            }
-            break;
-        case 1:
-            mGrid.mU(1, 0, 0) = 10;
-            mGrid.mD(1,0,0) = 3.0;
-            mGrid.mT(1,0,0) = 2.0;
-            // Refresh particles in source.
-            // vec3 cell_center(theCellSize*(1+0.5), theCellSize*(0+0.5), theCellSize*(0+0.5));
-            // for(int p = 0; p < 10; p++) {
-            //     double a = ((float) rand() / RAND_MAX - 0.5) * theCellSize;
-            //     double b = ((float) rand() / RAND_MAX - 0.5) * theCellSize;
-            //     double c = ((float) rand() / RAND_MAX - 0.5) * theCellSize;
-            //     vec3 shift(a, b, c);
-            //     vec3 xp = cell_center + shift;
-            //     mGrid.rendering_particles.push_back(xp);
-            // }
-
-            mGrid.mU(theDim[MACGrid::X] - 1,0, 0) = -5;
-            mGrid.mD(theDim[MACGrid::X] - 1,0,0) = 3.0;
-            mGrid.mT(theDim[MACGrid::X] - 1,0,0) = 2.0;
-            // cell_center = vec3(theCellSize*((theDim[MACGrid::X] - 1)+0.5), theCellSize*(0+0.5), theCellSize*(0+0.5));
-            // for(int p = 0; p < 10; p++) {
-            //     double a = ((float) rand() / RAND_MAX - 0.5) * theCellSize;
-            //     double b = ((float) rand() / RAND_MAX - 0.5) * theCellSize;
-            //     double c = ((float) rand() / RAND_MAX - 0.5) * theCellSize;
-            //     vec3 shift(a, b, c);
-            //     vec3 xp = cell_center + shift;
-            //     mGrid.rendering_particles.push_back(xp);
-            // }
-
-            mGrid.mV(theDim[MACGrid::X] / 2,theDim[MACGrid::Y]-1, 0) = -15;
-            mGrid.mD(theDim[MACGrid::X] / 2,theDim[MACGrid::Y]-1,0) = 3.0;
-            mGrid.mT(theDim[MACGrid::X] / 2,theDim[MACGrid::Y]-1,0) = 15.0;
-            // cell_center = vec3(theCellSize*((theDim[MACGrid::X]/2+0.5)), theCellSize*((theDim[MACGrid::Y]-1)+0.5)), theCellSize*(0+0.5));
-            // for(int p = 0; p < 10; p++) {
-            //     double a = ((float) rand() / RAND_MAX - 0.5) * theCellSize;
-            //     double b = ((float) rand() / RAND_MAX - 0.5) * theCellSize;
-            //     double c = ((float) rand() / RAND_MAX - 0.5) * theCellSize;
-            //     vec3 shift(a, b, c);
-            //     vec3 xp = cell_center + shift;
-            //     mGrid.rendering_particles.push_back(xp);
-            // }
-            break;
-    }
 }
 
 /*
@@ -164,24 +133,47 @@ void SmokeSim::computeBouyancy(MACGrid &mGrid, double dt)
 	// TODO: Calculate bouyancy and store in target
     // TODO: Your code is here. It modifies target.mV for all y face velocities.
 
-	FOR_EACH_FACE 
-    {
+	FOR_EACH_FACE {
 		if (mGrid.isValidFace(MACGrid::Y, i, j, k)) {
 			vec3 currPos = mGrid.getFacePosition(MACGrid::Y, i, j, k);
-
-            double temp = mGrid.getTemperature(currPos);
-    	    double ambientTemp = 300;
-            double s = mGrid.getDensity(currPos);
-
-            // Equation 5.1
-            vec3 fBuoy(0, -theBuoyancyAlpha * s + theBuoyancyBeta * (temp - ambientTemp), 0);
-
-            target.mV(i, j, k) = mGrid.mV(i, j, k) + fBuoy[1];
+			double temp = mGrid.getTemperature(currPos);
+			double ambientTemp = 300;
+			double s = mGrid.getDensity(currPos);
+			// Equation 5.1
+			vec3 fBuoy(0, -theBuoyancyAlpha * s + theBuoyancyBeta * (temp - ambientTemp), 0);
+			target.mV(i, j, k) = mGrid.mV(i, j, k) + fBuoy[1];
 		}
 	}
 
     // and then save the result to our object
-    mGrid.mV = target.mV;
+		mGrid.mV = target.mV;
+    
+}
+
+void SmokeSim::userForce(MACGrid &mGrid){
+
+	if (forcePosX >=0 and forcePosX<theDim[0] and forcePosY>=0 and forcePosY<theDim[1]){
+		mGrid.mU(forcePosX, forcePosX, 1) += forceX;
+		mGrid.mV(forcePosX, forcePosY, 1) += forceY;
+	}
+	forcePosX = -100; forcePosY = -100;
+}
+
+void SmokeSim::ballForce(MACGrid &mGrid){
+    //To use: 1. change ball in smoke_sim.cpp to be 1  2. change attractingball to be true
+    FOR_EACH_FACE {
+        if (mGrid.isValidFace(MACGrid::Y, i, j, k)) {
+            vec3 currPos = mGrid.getFacePosition(MACGrid::Y, i, j, k);
+            currPos[2] = 0;
+            vec3 centr(mGrid.sphereC[0],mGrid.sphereC[1],0);
+            double r = mGrid.rr2;
+            centr *= theCellSize;
+            vec3 dd = centr-currPos;
+            vec3 ff = -10*dd.Normalize();
+            mGrid.mU(i, j, k) += ff[0];
+            mGrid.mV(i, j, k) += ff[1];
+        }
+    }
 }
 
 /*
@@ -283,8 +275,12 @@ void SmokeSim::applyVorticityConfinement(MACGrid &mGrid, vec3 &fConf, int &i, in
 
 void SmokeSim::addExternalForces(MACGrid &mGrid, double dt)
 {
-   computeBouyancy(mGrid, dt);
-   computeVorticityConfinement(mGrid, dt);
+	computeBouyancy(mGrid, dt);
+	computeVorticityConfinement(mGrid, dt);
+	userForce(mGrid);
+    if (attractingball == true) {
+        ballForce(mGrid);
+    }
 }
 
 void SmokeSim::computeDivergence(MACGrid &mGrid, GridData &d)
@@ -476,7 +472,6 @@ void SmokeSim::applyPreconditioner(MACGrid &mGrid, const GridData & r, const Gri
         z = r;
         return;
     }
-
 }
 
 void SmokeSim::calculateAMatrix(MACGrid &mGrid) 
@@ -722,8 +717,11 @@ void SmokeSim::advectDensity(MACGrid &mGrid, double dt)
 void SmokeSim::advectRenderingParticles(MACGrid &mGrid, double dt) 
 {
 	mGrid.rendering_particles_vel.resize(mGrid.rendering_particles.size());
+    //cout<<mGrid.rendering_particles.size()<<endl;
 	for (size_t p = 0; p < mGrid.rendering_particles.size(); p++) {
+
 		vec3 currentPosition = mGrid.rendering_particles[p];
+        //cout<<currentPosition<<endl;
         vec3 currentVelocity = mGrid.getVelocity(currentPosition);
         vec3 nextPosition = currentPosition + currentVelocity * dt;
         vec3 clippedNextPosition = mGrid.clipToGrid(nextPosition, currentPosition);
@@ -732,17 +730,45 @@ void SmokeSim::advectRenderingParticles(MACGrid &mGrid, double dt)
         vec3 averageVelocity = (currentVelocity + nextVelocity) / 2.0;
         vec3 betterNextPosition = currentPosition + averageVelocity * dt;
         vec3 clippedBetterNextPosition = mGrid.clipToGrid(betterNextPosition, currentPosition);
-        mGrid.rendering_particles[p] = clippedBetterNextPosition;
-		mGrid.rendering_particles_vel[p] = averageVelocity;
+        if(mGrid.allowsphere == 1)
+        {
+            vec3 vel;
+            vec3 centr(mGrid.sphereC[0],mGrid.sphereC[1],0);
+            double r = mGrid.rr2;
+            centr *= theCellSize;
+            double radius = Distance(centr, clippedBetterNextPosition);
+            //double radius = std::sqrt(centr[0]-clippedBetterNextPosition[0])*(centr[0]-clippedBetterNextPosition[0])+(centr[1]-clippedBetterNextPosition[1])*(centr[1]-clippedBetterNextPosition[1]);
+            //cout<<clippedBetterNextPosition<<endl;
+            //cout<<centr<<endl;
+            //cout<<radius<<endl;
+            if (radius <= r and ball == 0) {
+                vec3 pos2c = clippedBetterNextPosition - centr;
+                pos2c = r * pos2c / radius;
+                clippedBetterNextPosition = pos2c + centr;
+                mGrid.rendering_particles[p] = clippedBetterNextPosition;
+                mGrid.rendering_particles_vel[p] = averageVelocity;
+
+            } else if (radius < r and ball == 1) {
+                int tttt = 0;
+            } else {
+                mGrid.rendering_particles[p] = clippedBetterNextPosition;
+                mGrid.rendering_particles_vel[p] = averageVelocity;
+            }
+        } else {
+            mGrid.rendering_particles[p] = clippedBetterNextPosition;
+    		mGrid.rendering_particles_vel[p] = averageVelocity;
+        }
 	}
 }
+
+
 
 void SmokeSim::step()
 {
 	double dt = 0.04;//0.1;
 
 	// Step0: Gather user forces
-	updateSources(mGrid, scene);
+	updateSources(mGrid);
 
 	// Step1: Calculate new velocities
 	advectVelocity(mGrid, dt);
@@ -760,3 +786,4 @@ void SmokeSim::step()
 
 	mTotalFrameNum++;
 }
+

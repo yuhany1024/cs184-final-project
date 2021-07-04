@@ -1,8 +1,6 @@
 #ifndef MACGrid_H_
 #define MACGrid_H_
 
-#pragma warning(disable: 4244 4267 4996)
-
 #include <math.h>
 #include <map>
 #include <stdio.h>
@@ -50,8 +48,6 @@ public:
 	{
 		// RK2
 		vec3 newPos = vec3(0,0,0);
-		vec3 k1 = vel * pos * dt / 2;
-		vec3 k2 = vel * (pos + k1) * dt;
 		newPos = pos + vel * dt;
 
 		return clamp(newPos);
@@ -78,11 +74,6 @@ public:
 	// Setup
 	void initialize();
 
-	// Simulation
-	void computeGravity(double dt);
-	void computeBouyancy(double dt);
-	void computeVorticityConfinement(double dt);
-	void applyVorticityConfinement(vec3 &fConf, int &i, int &j, int &k);
 
 	// Rendering
 	struct Cube { vec3 pos; vec4 color; double dist; };
@@ -134,6 +125,11 @@ public:
 	GridData mP;  // Pressure, stored at grid centers, size is dimX*dimY*dimZ
 	GridData mD;  // Density, stored at grid centers, size is dimX*dimY*dimZ
 	GridData mT;  // Temperature, stored at grid centers, size is dimX*dimY*dimZ
+	vec3 sphereC=vec3(15,15,0);
+	double rr2 = 4*theCellSize;
+	int allowsphere = 1;
+	//when =1, sphere appears
+	//when =0, sphere disappears
 
 	// FLIP - Save a copy of the velocities for FLIP solve
 	GridDataX mUcopy; 

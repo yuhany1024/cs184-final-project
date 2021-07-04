@@ -1,15 +1,19 @@
 #include "mac_grid.h"
 
+
 #undef max
 #undef min 
 
-
+#define theRenderMode CUBES
 
 bool MACGrid::theDisplayVel = false;//true
+
 
 MACGrid::MACGrid()
 {
     initialize();
+    cout<<sphereC<<endl;
+
 }
 
 MACGrid::MACGrid(const MACGrid& orig)
@@ -59,10 +63,30 @@ void MACGrid::initialize()
 vec3 MACGrid::getVelocity(const vec3& pt)
 {
    vec3 vel;
-   vel[0] = getVelocityX(pt); 
-   vel[1] = getVelocityY(pt); 
-   vel[2] = getVelocityZ(pt); 
-   return vel;
+    vec3 centr(sphereC[0],sphereC[1],sphereC[2]);
+    centr*=theCellSize;
+    double radius=Distance(centr,pt);
+    if(allowsphere == 0)
+    {
+        vel[0] = getVelocityX(pt);
+        vel[1] = getVelocityY(pt);
+        vel[2] = getVelocityZ(pt);
+        return vel;
+    }
+    else
+    {
+        if (radius > rr2) {
+            vel[0] = getVelocityX(pt);
+            vel[1] = getVelocityY(pt);
+            vel[2] = getVelocityZ(pt);
+            return vel;
+        } else if (radius <= rr2) {
+            vec3 curvel(mU.interpolate(pt), mV.interpolate(pt), mW.interpolate(pt));
+            vec3 pro = Dot(curvel, (pt - centr)) * (pt - centr).Normalize();
+            return (curvel - pro);
+            //return -curvel;
+        } 
+    }
 }
 
 double MACGrid::getVelocityX(const vec3& pt)
@@ -162,7 +186,6 @@ vec3 MACGrid::clipToGrid(const vec3& outsidePoint, const vec3& insidePoint) {
 		PRINT_LINE("WARNING: Clipped point is outside grid!");
 	}
 #endif
-
 	return clippedPoint;
 
 }
@@ -350,22 +373,10 @@ void MACGrid::saveDensity(std::string filename){
 }
 
 void MACGrid::draw(const Camera& c)
-{   
-    drawWireGrid();
-    switch(theRenderMode) 
-    {
-        case CUBES:
-            drawSmokeCubes(c);
-            break;
-        case SHEETS:
-            drawSmoke(c);
-            break;
-        case PARTICLES:
-            drawParticles(c);
-            break;
-        default:
-            break;
-    }
+{
+	// drawWireGrid();
+	drawSmoke(c);
+   drawVelocities();
 }
 
 void MACGrid::drawVelocities()
@@ -373,19 +384,19 @@ void MACGrid::drawVelocities()
    // draw line at each center
    //glColor4f(0.0, 1.0, 0.0, 1.0);
    glBegin(GL_LINES);
-      FOR_EACH_CELL
+      FOR_EACH_CELL_NO_K
       {
-         vec3 pos = getCenter(i,j,k);
+         vec3 pos = getCenter(i,j,0);
          vec3 vel = getVelocity(pos);
          if (vel.Length() > 0.0001)
          {
-           //vel.Normalize(); 
-           vel *= theCellSize/2.0;
-           vel += pos;
-		   glColor4f(1.0, 1.0, 0.0, 1.0);
-           glVertex3dv(pos.n);
-		   glColor4f(0.0, 1.0, 0.0, 1.0);
-           glVertex3dv(vel.n);
+            //vel.Normalize(); 
+            vel *= theCellSize/2.0;
+            vel += pos;
+   		   glColor4f(1.0, 1.0, 0.0, 1.0);
+            glVertex2d(1. - 2. * pos.n[0] / (double) theDim[0], 2. * pos.n[1] / (double) theDim[1]);
+		      glColor4f(0.0, 1.0, 0.0, 1.0);
+            glVertex2d(1. - 2. * vel.n[0] / (double) theDim[0], 2. * vel.n[1] / (double) theDim[1]);
          }
       }
    glEnd();
@@ -393,12 +404,10 @@ void MACGrid::drawVelocities()
 
 vec4 MACGrid::getRenderColor(int i, int j, int k)
 {
-	
 	double value = mD(i, j, k); 
-	vec4 coldColor(0.5, 0.5, 1.0, value);
-	vec4 hotColor(1.0, 0.5, 0.5, value);
-    return LERP(coldColor, hotColor, mT(i, j, k));
-	
+	vec4 coldColor(0.5, 0.5, 1, value);
+	vec4 hotColor(1, 0.5, 0.5, value);
+   return LERP(coldColor, hotColor, mT(i, j, k));
 
 	/*
 	// OLD:
@@ -412,7 +421,7 @@ vec4 MACGrid::getRenderColor(const vec3& pt)
 	double value = getDensity(pt);
 	vec4 coldColor(0.5, 0.5, 1.0, value);
 	vec4 hotColor(1.0, 0.5, 0.5, value);
-    return LERP(coldColor, hotColor, getTemperature(pt));
+   return LERP(coldColor, hotColor, getTemperature(pt));
 
 	/*
 	// OLD:
@@ -421,183 +430,60 @@ vec4 MACGrid::getRenderColor(const vec3& pt)
 	*/
 }
 
-void MACGrid::drawZSheets(bool backToFront)
+void MACGrid::drawSmoke(const Camera& c)
 {
+    //used in this project
    // Draw K Sheets from back to front
    double back =  (theDim[2])*theCellSize;
    double top  =  (theDim[1])*theCellSize;
    double right = (theDim[0])*theCellSize;
   
-   double stepsize = theCellSize*0.25;
+   double stepsize = theCellSize * 0.25;
 
    double startk = back - stepsize;
    double endk = 0;
    double stepk = -theCellSize;
 
-   if (!backToFront)
+   for (double j = 0.0; j < top; j += stepsize)
    {
-      startk = 0;
-      endk = back;   
-      stepk = theCellSize;
-   }
-
-   for (double k = startk; backToFront? k > endk : k < endk; k += stepk)
-   {
-     for (double j = 0.0; j < top; )
+      glBegin(GL_QUAD_STRIP);
+      for (double i = right; i >= 0; i -= stepsize)
       {
-         glBegin(GL_QUAD_STRIP);
-         for (double i = 0.0; i <= right; i += stepsize)
-         {
-            vec3 pos1 = vec3(i,j,k); 
-            vec3 pos2 = vec3(i, j+stepsize, k); 
-
-            vec4 color1 = getRenderColor(pos1);
-            vec4 color2 = getRenderColor(pos2);
-
-            glColor4dv(color1.n);
-            glVertex3dv(pos1.n);
-
-            glColor4dv(color2.n);
-            glVertex3dv(pos2.n);
-         } 
-         glEnd();
-         j+=stepsize;
-
-         glBegin(GL_QUAD_STRIP);
-         for (double i = right; i >= 0.0; i -= stepsize)
-         {
-            vec3 pos1 = vec3(i,j,k); 
-            vec3 pos2 = vec3(i, j+stepsize, k); 
-
-            vec4 color1 = getRenderColor(pos1);
-            vec4 color2 = getRenderColor(pos2);
-
-            glColor4dv(color1.n);
-            glVertex3dv(pos1.n);
-
-            glColor4dv(color2.n);
-            glVertex3dv(pos2.n);
-         } 
-         glEnd();
-         j+=stepsize;
-      }
+         vec3 pos1 = vec3(i,j,startk); 
+         vec3 pos2 = vec3(i, j+stepsize, startk); 
+         vec4 color1, color2;
+         if (allowsphere == 1) {
+         // --------sphere--------
+            int centerX = sphereC[0]*theCellSize, centerY = sphereC[1]*theCellSize, radius = rr2;
+            double distSphere = std::sqrt((i-centerX)*(i-centerX)+(j-centerY)*(j-centerY));
+            if (distSphere<=radius) {
+               //reflect color
+               color1 = vec4 (1,1,1, 1-distSphere/radius/2);
+               color2 = vec4 (1,1,1, 1-distSphere/radius/2);
+               //absorb color
+               //color1 = vec4 (1,0,1, 1-distSphere/radius/2);
+               //color2 = vec4 (1,0,1, 1-distSphere/radius/2);
+               //attract color
+               //color1 = vec4 (0.9,0.6,0.2, 1-distSphere/radius/2);
+               //color2 = vec4 (0.9,0.6,0.2, 1-distSphere/radius/2);
+            } else {
+               color1 = getRenderColor(pos1);
+               color2 = getRenderColor(pos2);
+            }
+               //---------------------
+         } else {
+            color1 = getRenderColor(pos1);
+            color2 = getRenderColor(pos2);
+         }
+         glColor4dv(color1.n);
+         glVertex2d((right - i) / right, j / top);
+         glColor4dv(color2.n);
+         glVertex2d((right - i) / right, (j + stepsize) / top);
+      } 
+      glEnd();
    }
 }
 
-void MACGrid::drawXSheets(bool backToFront)
-{
-   // Draw K Sheets from back to front
-   double back =  (theDim[2])*theCellSize;
-   double top  =  (theDim[1])*theCellSize;
-   double right = (theDim[0])*theCellSize;
-  
-   double stepsize = theCellSize*0.25;
-
-   double starti = right - stepsize;
-   double endi = 0;
-   double stepi = -theCellSize;
-
-   if (!backToFront)
-   {
-      starti = 0;
-      endi = right;   
-      stepi = theCellSize;
-   }
-
-   for (double i = starti; backToFront? i > endi : i < endi; i += stepi)
-   {
-     for (double j = 0.0; j < top; )
-      {
-         glBegin(GL_QUAD_STRIP);
-         for (double k = 0.0; k <= back; k += stepsize)
-         {
-            vec3 pos1 = vec3(i,j,k); 
-            vec3 pos2 = vec3(i, j+stepsize, k); 
-
-            vec4 color1 = getRenderColor(pos1);
-            vec4 color2 = getRenderColor(pos2);
-
-            glColor4dv(color1.n);
-            glVertex3dv(pos1.n);
-
-            glColor4dv(color2.n);
-            glVertex3dv(pos2.n);
-         } 
-         glEnd();
-         j+=stepsize;
-
-         glBegin(GL_QUAD_STRIP);
-         for (double k = back; k >= 0.0; k -= stepsize)
-         {
-            vec3 pos1 = vec3(i,j,k); 
-            vec3 pos2 = vec3(i, j+stepsize, k); 
-
-            vec4 color1 = getRenderColor(pos1);
-            vec4 color2 = getRenderColor(pos2);
-
-            glColor4dv(color1.n);
-            glVertex3dv(pos1.n);
-
-            glColor4dv(color2.n);
-            glVertex3dv(pos2.n);
-         } 
-         glEnd();
-         j+=stepsize;
-      }
-   }
-}
-
-
-void MACGrid::drawSmoke(const Camera& c)
-{
-   vec3 eyeDir = c.getBackward();
-   double zresult = fabs(Dot(eyeDir, vec3(1,0,0)));
-   double xresult = fabs(Dot(eyeDir, vec3(0,0,1)));
-   //double yresult = fabs(Dot(eyeDir, vec3(0,1,0)));
-
-   if (zresult < xresult)
-   {      
-      drawZSheets(c.getPosition()[2] < 0);
-   }
-   else 
-   {
-      drawXSheets(c.getPosition()[0] < 0);
-   }
-}
-
-void MACGrid::drawSmokeCubes(const Camera& c)
-{
-   std::multimap<double, MACGrid::Cube, std::greater<double> > cubes;
-   FOR_EACH_CELL
-   {
-      MACGrid::Cube cube;
-      cube.color = getRenderColor(i,j,k);
-      cube.pos = getCenter(i,j,k);
-      cube.dist = DistanceSqr(cube.pos, c.getPosition());
-      cubes.insert(make_pair(cube.dist, cube));
-   } 
-
-   // Draw cubes from back to front
-   std::multimap<double, MACGrid::Cube, std::greater<double> >::const_iterator it;
-   for (it = cubes.begin(); it != cubes.end(); ++it)
-   {
-      drawCube(it->second);
-   }
-}
-
-void MACGrid::drawParticles(const Camera& c) 
-{
-    glEnable(GL_POINT_SMOOTH);
-	glColor3f(0.0f, 0.0f, 1.0f);
-	glPointSize(3.f);
-	glBegin(GL_POINTS); 
-        FOR_EACH_PARTICLE 
-        {
-            Particle p = particles.at(i);
-            glVertex3d(p.position[0], p.position[1], p.position[2]);            
-        }
-	glEnd();
-}
 
 void MACGrid::drawWireGrid()
 {
@@ -650,67 +536,4 @@ void MACGrid::drawWireGrid()
    glPopAttrib();
 
    glEnd();
-}
-
-#define LEN 0.5
-void MACGrid::drawFace(const MACGrid::Cube& cube)
-{
-   glColor4dv(cube.color.n);
-   glPushMatrix();
-      glTranslated(cube.pos[0], cube.pos[1], cube.pos[2]);      
-      glScaled(theCellSize, theCellSize, theCellSize);
-      glBegin(GL_QUADS);
-         glNormal3d( 0.0,  0.0, 1.0);
-         glVertex3d(-LEN, -LEN, LEN);
-         glVertex3d(-LEN,  LEN, LEN);
-         glVertex3d( LEN,  LEN, LEN);
-         glVertex3d( LEN, -LEN, LEN);
-      glEnd();
-   glPopMatrix();
-}
-
-void MACGrid::drawCube(const MACGrid::Cube& cube)
-{
-   glColor4dv(cube.color.n);
-   glPushMatrix();
-      glTranslated(cube.pos[0], cube.pos[1], cube.pos[2]);      
-      glScaled(theCellSize, theCellSize, theCellSize);
-      glBegin(GL_QUADS);
-         glNormal3d( 0.0, -1.0,  0.0);
-         glVertex3d(-LEN, -LEN, -LEN);
-         glVertex3d(-LEN, -LEN,  LEN);
-         glVertex3d( LEN, -LEN,  LEN);
-         glVertex3d( LEN, -LEN, -LEN);         
-
-         glNormal3d( 0.0,  0.0, -0.0);
-         glVertex3d(-LEN, -LEN, -LEN);
-         glVertex3d(-LEN,  LEN, -LEN);
-         glVertex3d( LEN,  LEN, -LEN);
-         glVertex3d( LEN, -LEN, -LEN);
-
-         glNormal3d(-1.0,  0.0,  0.0);
-         glVertex3d(-LEN, -LEN, -LEN);
-         glVertex3d(-LEN, -LEN,  LEN);
-         glVertex3d(-LEN,  LEN,  LEN);
-         glVertex3d(-LEN,  LEN, -LEN);
-
-         glNormal3d( 0.0, 1.0,  0.0);
-         glVertex3d(-LEN, LEN, -LEN);
-         glVertex3d(-LEN, LEN,  LEN);
-         glVertex3d( LEN, LEN,  LEN);
-         glVertex3d( LEN, LEN, -LEN);
-
-         glNormal3d( 0.0,  0.0, 1.0);
-         glVertex3d(-LEN, -LEN, LEN);
-         glVertex3d(-LEN,  LEN, LEN);
-         glVertex3d( LEN,  LEN, LEN);
-         glVertex3d( LEN, -LEN, LEN);
-
-         glNormal3d(1.0,  0.0,  0.0);
-         glVertex3d(LEN, -LEN, -LEN);
-         glVertex3d(LEN, -LEN,  LEN);
-         glVertex3d(LEN,  LEN,  LEN);
-         glVertex3d(LEN,  LEN, -LEN);
-      glEnd();
-   glPopMatrix();
 }

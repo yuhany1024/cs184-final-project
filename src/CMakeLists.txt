@@ -6,7 +6,6 @@ add_library(eigen INTERFACE IMPORTED)
 set(SOURCE_FILES main.cpp
 		 simulator.cpp
 		 smoke_sim.cpp
-		 fluid_sim.cpp
 		 mac_grid.cpp
 		 util/vec.cpp
 		 grid_data.cpp
